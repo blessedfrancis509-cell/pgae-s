@@ -1,0 +1,43 @@
+# Netlify configuration for Vertex Fintech Landing Page
+[[redirects]]
+From = "/*"
+To = "/index.html"
+Status = 200
+
+[[headers]]
+For = "/*"
+
+[headers.values]
+X-Frame-Options = "DENY"
+X-Content-Type-Options = "nosniff"
+X-XSS-Protection = "1; mode=block"
+Referrer-Policy = "strict-origin-when-cross-origin"
+
+# Security headers
+[headers.values]
+Content-Security-Policy = "default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; script-src 'self';"
+
+[build]
+  command = "vite build"
+  publish = "dist"
+  functions = "netlify/functions"
+  environment = {
+    NODE_VERSION = "20"
+    VITE_API_BASE_URL = "/api"
+  }
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+[[plugins]]
+  package = "netlify-plugin-lighthouse"
+
+  [plugins.inputs]
+    output_path = "lighthouse-results.json"
+  
+  [plugins.inputs.report_path]
+    relative = "lighthouse-report.html"
+
+[[plugins]]
+  package = "netlify-plugin-image-optim"

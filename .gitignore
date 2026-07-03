@@ -1,0 +1,47 @@
+# Node.js specific files
+node_modules/
+.lambda-deploy-metadata-
+
+# Build artifacts
+dist/
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea
+.DS_Store
+*.swp
+*.swo
+
+# Environment files
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+
+# Temporary files
+*.tmp
+*.temp
+
+# Netlify specific
+.netlify/
+lighthouse-results.json
+lighthouse-report.html
+
+# Logs
+logs/
+*.log
+
+# Runtime data
+*.pid
+*.seed
+*.pid.lock
+
+# Distribution directories
+dist/
+dist-backend/
+dist-front/
