@@ -7,7 +7,7 @@ interface TeamMember {
   name: string;
   role: string;
   tagline: string;
-  image: string;
+  image: string | null;
   bio: string;
   detailedBio: string;
   color: string;
@@ -86,12 +86,18 @@ export const TeamMemberModal: React.FC<TeamMemberModalProps> = ({ isOpen, onClos
                 {/* Left: Beautiful Photo & Tag */}
                 <div className="md:col-span-5 text-center md:text-left space-y-4">
                   <div className={`relative w-40 h-40 mx-auto md:mx-0 rounded-[24px] overflow-hidden border-2 border-white/15 shadow-2xl bg-neutral-900 group`}>
-                    <img
-                      src={member.image}
-                      alt={member.name}
-                      referrerPolicy="no-referrer"
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
+                    {member.image ? (
+                      <img
+                        src={member.image}
+                        alt={member.name}
+                        referrerPolicy="no-referrer"
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <span className="text-5xl font-bold font-mono text-neutral-500">{member.name.charAt(0)}</span>
+                      </div>
+                    )}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex items-end justify-center pb-3">
                       <span className={`text-[10px] font-mono font-bold tracking-widest uppercase ${member.textClass}`}>
                         {member.tagline}

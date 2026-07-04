@@ -208,13 +208,65 @@ export const VertexLogo: React.FC<{ className?: string }> = ({ className = "w-10
   </svg>
 );
 
+// Splash Screen Component
+const SplashScreen: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setProgress((prev) => {
+        const next = prev + (80 / 24);
+        if (next >= 80) {
+          clearInterval(interval);
+          setTimeout(() => {
+            setProgress(100);
+            setTimeout(onComplete, 300);
+          }, 300);
+        }
+        return next;
+      });
+    }, 100);
+    return () => clearInterval(interval);
+  }, [onComplete]);
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#160a33]">
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute top-0 left-0 w-96 h-96 bg-purple-600/20 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 right-0 w-96 h-96 bg-pink-600/20 rounded-full blur-3xl" />
+      </div>
+      <div className="relative text-center z-10">
+        <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ duration: 0.5 }} className="mb-6">
+          <VertexLogo className="w-20 h-20 mx-auto" />
+        </motion.div>
+        <motion.h1 initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }} className="text-2xl font-bold text-white mb-2">
+          Vertex Fintech
+        </motion.h1>
+        <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5, delay: 0.2 }} className="text-sm text-neutral-400 font-mono tracking-wider uppercase">
+          Premium Digital Solutions
+        </motion.p>
+        <div className="mt-8 w-64 mx-auto">
+          <div className="relative h-1 bg-neutral-800 rounded-full overflow-hidden">
+            <motion.div initial={{ width: 0 }} animate={{ width: `${progress}%` }} transition={{ duration: 0.1 }} className="absolute top-0 left-0 h-full bg-gradient-to-r from-purple-500 via-pink-500 to-amber-400" />
+          </div>
+          <div className="flex justify-between mt-2 text-[10px] text-neutral-500 font-mono">
+            <span>READY</span>
+            <span>INITIALIZING</span>
+            <span>SYSTEMS</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const TEAM_MEMBERS = [
   {
     id: "eren-utsalo",
     name: "Eren Utsalo",
     role: "CEO & Lead Software Architect",
     tagline: "Founder & CEO",
-    image: "/src/assets/images/ceo-photo.jpg",
+    image: "/images/ceo-photo.jpg",
     bio: "Directs software vision, core systems scaling, and digital engineering standards. Devoted to high-fidelity code.",
     detailedBio: "Eren Utsalo is the visionary behind Vertex Fintech Ltd. With over a decade of deep technical experience across distributed networks, scalable database clusters, and secure Web3 ecosystems, Eren oversees the architectural blueprint of all key client deployments. He is a passionate advocate of clean type-safe TypeScript, robust CI/CD, and highly optimized serverless pipelines.",
     color: "amber",
@@ -233,7 +285,7 @@ const TEAM_MEMBERS = [
     name: "Jeremiah Obazee",
     role: "Head of Cloud & DevOps",
     tagline: "Co-Founder / CTO",
-    image: "/src/assets/images/jeremiah-photo.jpg",
+    image: "/images/jeremiah-photo.jpg",
     bio: "Kubernetes automation expert. Specializes in multi-cloud setups, secure vaults, and serverless clusters.",
     detailedBio: "Jeremiah is a seasoned DevOps SRE and systems automation lead with extensive expertise in Google Cloud Platform (GCP), AWS, and multi-region Kubernetes clusters. He is responsible for securing client infrastructure, establishing zero-downtime continuous delivery pipelines, and implementing real-time Prometheus monitoring arrays.",
     color: "purple",
@@ -819,12 +871,18 @@ export default function App() {
               >
                 <div>
                   <div className="relative w-32 h-32 mx-auto mb-4 rounded-2xl overflow-hidden border-2 border-white/10 group-hover:border-white/30 transition-colors duration-300">
-                    <img 
-                      src={member.image} 
-                      alt={member.name}
-                      referrerPolicy="no-referrer"
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                    />
+                    {member.image ? (
+                      <img 
+                        src={member.image} 
+                        alt={member.name}
+                        referrerPolicy="no-referrer"
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center bg-white/5 text-neutral-500">
+                        <span className="text-3xl font-bold font-mono">{member.name.charAt(0)}</span>
+                      </div>
+                    )}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end justify-center pb-2">
                       <span className={`text-[10px] font-mono ${member.textClass}`}>{member.tagline}</span>
                     </div>

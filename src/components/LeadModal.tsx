@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { X, Check, ArrowRight, ShieldCheck, Clipboard, MessageSquare, Send, Calendar, Star, Mail, Phone, Copy, CheckCircle2 } from "lucide-react";
+import { X, Check, ArrowRight, ShieldCheck, Clipboard, MessageSquare, Send, Calendar, Star } from "lucide-react";
 import { SERVICES, EXTRA_PRODUCTS } from "../data";
 
 interface LeadModalProps {
@@ -18,11 +18,6 @@ export const LeadModal: React.FC<LeadModalProps> = ({ isOpen, onClose, preselect
   const [status, setStatus] = useState<"form" | "success">("form");
   const [ticketId, setTicketId] = useState("");
   const [copied, setCopied] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
-  const [directEmail, setDirectEmail] = useState("");
-  const [directPhone, setDirectPhone] = useState("");
-  const [showDirectInfo, setShowDirectInfo] = useState(false);
 
   // Auto-fill solution state when preselectedProduct changes
   React.useEffect(() => {
