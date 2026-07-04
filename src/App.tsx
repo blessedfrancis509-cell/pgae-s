@@ -1576,6 +1576,8 @@ export default function App() {
         member={selectedTeamMember}
       />
 
+      </div>
+      )}
     </div>
   );
 }
