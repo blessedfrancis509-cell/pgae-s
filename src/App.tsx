@@ -382,7 +382,6 @@ export default function App() {
       {showSplash ? (
         <SplashScreen onComplete={() => setShowSplash(false)} />
       ) : (
-      ) : (
         <div className="min-h-screen bg-[#FAF9FC] text-neutral-900 font-sans selection:bg-purple-600 selection:text-white overflow-x-hidden relative z-0">
           
           {/* Sleek Interface Background Blobs */}
