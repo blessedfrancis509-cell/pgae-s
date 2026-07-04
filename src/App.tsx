@@ -473,7 +473,7 @@ export default function App() {
 
             {/* Desktop Links */}
             <nav className="hidden lg:flex items-center gap-7 text-xs font-semibold text-neutral-200">
-              {
+              {[
             { label: "Home", action: () => window.scrollTo({ top: 0, behavior: "smooth" }) },
             { label: "Services", action: () => scrollToId("services") },
             { label: "Products", action: () => scrollToId("products") },
