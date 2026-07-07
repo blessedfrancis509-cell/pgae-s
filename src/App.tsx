@@ -44,6 +44,7 @@ const PROJECTS = [
     tech: ["Solidity", "ERC-20 Token", "React", "Ethers.js"],
     color: "from-amber-500 via-orange-500 to-yellow-400",
     iconName: "Cpu",
+    imageSrc: "https://picsum.photos/seed/apexdex/800/500",
     specs: [
       { label: "Contract Audited By", value: "ConsenSys Diligence" },
       { label: "AMM Formula Type", value: "Constant Product (x * y = k)" },
@@ -68,6 +69,7 @@ const PROJECTS = [
     tech: ["Kubernetes", "GCP Cloud", "Terraform", "Docker"],
     color: "from-purple-500 via-indigo-500 to-blue-600",
     iconName: "Terminal",
+    imageSrc: "https://picsum.photos/seed/cloudscale/800/500",
     specs: [
       { label: "Cluster Type", value: "Multi-Region GKE Autopilot" },
       { label: "Infrastructure Code", value: "Terraform 1.5 Modular State" },
@@ -91,6 +93,7 @@ const PROJECTS = [
     tech: ["Brand Guidelines", "Logo design", "Framer Motion", "UI System"],
     color: "from-pink-500 via-rose-500 to-purple-600",
     iconName: "Palette",
+    imageSrc: "https://picsum.photos/seed/equinox/800/500",
     specs: [
       { label: "Design Grid Standard", value: "8px Spatial Subgrid System" },
       { label: "Color Space Selection", value: "Bespoke DCI-P3 High-Contrast" },
@@ -114,6 +117,7 @@ const PROJECTS = [
     tech: ["Next.js", "Node.js", "Redis Caching", "Tailwind CSS"],
     color: "from-cyan-500 via-teal-500 to-blue-600",
     iconName: "Layers",
+    imageSrc: "https://picsum.photos/seed/velopay/800/500",
     specs: [
       { label: "Edge Response Latency", value: "Sub-12ms Memory Lookups" },
       { label: "Gateway Encryptions", value: "HMAC SHA-256 Signatures" },
@@ -367,6 +371,7 @@ export default function App() {
                   <li><button onClick={() => scrollToId("products")}>Products</button></li>
                   <li><button onClick={() => scrollToId("about")}>About Us</button></li>
                   <li><button onClick={() => scrollToId("why")}>Why Us</button></li>
+                  <li><button onClick={() => scrollToId("faq")}>FAQ</button></li>
                   <li><button onClick={() => scrollToId("contact")}>Contact</button></li>
                 </ul>
                 <div className="navbar-cta">
@@ -386,6 +391,7 @@ export default function App() {
                   <button onClick={() => { scrollToId("products"); setMobileMenuOpen(false); }}>Products</button>
                   <button onClick={() => { scrollToId("about"); setMobileMenuOpen(false); }}>About Us</button>
                   <button onClick={() => { scrollToId("why"); setMobileMenuOpen(false); }}>Why Us</button>
+                  <button onClick={() => { scrollToId("faq"); setMobileMenuOpen(false); }}>FAQ</button>
                   <button onClick={() => { scrollToId("contact"); setMobileMenuOpen(false); }}>Contact</button>
                 </motion.div>
               )}
@@ -403,7 +409,7 @@ export default function App() {
                       <a href="#services" className="btn btn-gold" onClick={(e) => { e.preventDefault(); scrollToId("services"); }}>
                         Explore Services <ArrowRight className="w-4 h-4" />
                       </a>
-                      <a href="tel:08158432605" className="btn btn-ghost">📞 08158432605</a>
+                      <a href="https://wa.me/2348158432605?text=Hello%20Vertex%20Fintech%20Ltd%2C%20I%20want%20to%20know%20more%20about%20your%20services." target="_blank" rel="noopener noreferrer" className="btn btn-ghost">📞 08158432605</a>
                     </div>
                   </div>
 
@@ -710,6 +716,17 @@ export default function App() {
                   };
                   return (
                     <div key={project.id} className="rounded-[32px] p-6 sm:p-8 text-left" style={{background:'linear-gradient(180deg,#130B2E,#0A051B)', border:'1px solid rgba(255,255,255,.05)'}}>
+                      {project.imageSrc && (
+                        <div style={{width:'100%', borderRadius:16, overflow:'hidden', marginBottom:16, border:'1px solid rgba(255,255,255,.08)', position:'relative'}}>
+                          <div style={{height:28, background:'rgba(17,9,42,.9)', display:'flex', alignItems:'center', padding:'0 12px', gap:6, borderBottom:'1px solid rgba(255,255,255,.06)'}}>
+                            <span style={{width:10, height:10, borderRadius:'50%', background:'#ff5f56'}} />
+                            <span style={{width:10, height:10, borderRadius:'50%', background:'#ffbd2e'}} />
+                            <span style={{width:10, height:10, borderRadius:'50%', background:'#27c93f'}} />
+                            <span style={{marginLeft:'auto', fontSize:9, fontFamily:'var(--font-mono)', color:'rgba(182,172,217,.3)'}}>{project.id}.io</span>
+                          </div>
+                          <img src={project.imageSrc} alt={project.title} style={{width:'100%', display:'block', transition:'transform .5s'}} onMouseOver={(e) => e.currentTarget.style.transform='scale(1.03)'} onMouseOut={(e) => e.currentTarget.style.transform='scale(1)'} />
+                        </div>
+                      )}
                       <div style={{display:'flex', alignItems:'center', gap:12, marginBottom:12}}>
                         <div style={{padding:'10px', borderRadius:'16px', background:`linear-gradient(135deg,${project.color.includes('amber') ? '#f7b32b' : project.color.includes('purple') ? '#6b21e8' : project.color.includes('pink') ? '#ec1e79' : '#22d3ee'},${project.color.includes('amber') ? '#ffd45c' : project.color.includes('purple') ? '#8b3ff0' : project.color.includes('pink') ? '#f0508f' : '#0fb8ac'})`}}>
                           {getIcon()}
