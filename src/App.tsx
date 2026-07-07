@@ -44,7 +44,7 @@ const PROJECTS = [
     tech: ["Solidity", "ERC-20 Token", "React", "Ethers.js"],
     color: "from-amber-500 via-orange-500 to-yellow-400",
     iconName: "Cpu",
-    imageSrc: "https://picsum.photos/seed/apexdex/800/500",
+    imageSrc: "/images/apexdex_website_mockup_1783108355071.jpg",
     specs: [
       { label: "Contract Audited By", value: "ConsenSys Diligence" },
       { label: "AMM Formula Type", value: "Constant Product (x * y = k)" },
@@ -69,7 +69,7 @@ const PROJECTS = [
     tech: ["Kubernetes", "GCP Cloud", "Terraform", "Docker"],
     color: "from-purple-500 via-indigo-500 to-blue-600",
     iconName: "Terminal",
-    imageSrc: "https://picsum.photos/seed/cloudscale/800/500",
+    imageSrc: "/images/cloudscale_panel_mockup_1783108366421.jpg",
     specs: [
       { label: "Cluster Type", value: "Multi-Region GKE Autopilot" },
       { label: "Infrastructure Code", value: "Terraform 1.5 Modular State" },
@@ -93,7 +93,7 @@ const PROJECTS = [
     tech: ["Brand Guidelines", "Logo design", "Framer Motion", "UI System"],
     color: "from-pink-500 via-rose-500 to-purple-600",
     iconName: "Palette",
-    imageSrc: "https://picsum.photos/seed/equinox/800/500",
+    imageSrc: "/images/equinox_brand_mockup_1783108377728.jpg",
     specs: [
       { label: "Design Grid Standard", value: "8px Spatial Subgrid System" },
       { label: "Color Space Selection", value: "Bespoke DCI-P3 High-Contrast" },
@@ -117,7 +117,7 @@ const PROJECTS = [
     tech: ["Next.js", "Node.js", "Redis Caching", "Tailwind CSS"],
     color: "from-cyan-500 via-teal-500 to-blue-600",
     iconName: "Layers",
-    imageSrc: "https://picsum.photos/seed/velopay/800/500",
+    imageSrc: "/images/velopay_saas_mockup_1783108390567.jpg",
     specs: [
       { label: "Edge Response Latency", value: "Sub-12ms Memory Lookups" },
       { label: "Gateway Encryptions", value: "HMAC SHA-256 Signatures" },
@@ -702,10 +702,10 @@ export default function App() {
                 </p>
               </div>
 
-              <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(480px, 1fr))', gap:32}}>
+              <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(460px, 1fr))', gap:28}}>
                 {PROJECTS.map((project) => {
                   const getIcon = () => {
-                    const props = { className: "w-6 h-6 text-white" };
+                    const props = { className: "w-5 h-5 text-white" };
                     switch (project.iconName) {
                       case "Cpu": return <Cpu {...props} />;
                       case "Terminal": return <Terminal {...props} />;
@@ -714,69 +714,95 @@ export default function App() {
                       default: return <Code {...props} />;
                     }
                   };
+                  const gradFrom = project.color.includes('amber') ? '#f7b32b' : project.color.includes('purple') ? '#7c3aed' : project.color.includes('pink') ? '#ec4899' : '#06b6d4';
+                  const gradTo = project.color.includes('amber') ? '#f59e0b' : project.color.includes('purple') ? '#6d28d9' : project.color.includes('pink') ? '#db2777' : '#0891b2';
                   return (
-                    <div key={project.id} className="rounded-[32px] p-6 sm:p-8 text-left" style={{background:'linear-gradient(180deg,#130B2E,#0A051B)', border:'1px solid rgba(255,255,255,.05)'}}>
+                    <div key={project.id} style={{background:'linear-gradient(180deg,#130B2E,#0A051B)', border:'1px solid rgba(255,255,255,.06)', borderRadius:24, overflow:'hidden', transition:'border-color .3s, box-shadow .3s', cursor:'pointer'}}
+                      onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'rgba(247,179,43,.3)'; e.currentTarget.style.boxShadow = '0 0 40px rgba(247,179,43,.08)'; }}
+                      onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,.06)'; e.currentTarget.style.boxShadow = 'none'; }}
+                    >
+                      {/* Image */}
                       {project.imageSrc && (
-                        <div style={{width:'100%', borderRadius:16, overflow:'hidden', marginBottom:16, border:'1px solid rgba(255,255,255,.08)', position:'relative'}}>
-                          <div style={{height:28, background:'rgba(17,9,42,.9)', display:'flex', alignItems:'center', padding:'0 12px', gap:6, borderBottom:'1px solid rgba(255,255,255,.06)'}}>
-                            <span style={{width:10, height:10, borderRadius:'50%', background:'#ff5f56'}} />
-                            <span style={{width:10, height:10, borderRadius:'50%', background:'#ffbd2e'}} />
-                            <span style={{width:10, height:10, borderRadius:'50%', background:'#27c93f'}} />
-                            <span style={{marginLeft:'auto', fontSize:9, fontFamily:'var(--font-mono)', color:'rgba(182,172,217,.3)'}}>{project.id}.io</span>
+                        <div style={{position:'relative', overflow:'hidden', height:220}}>
+                          <img src={project.imageSrc} alt={project.title} style={{width:'100%', height:'100%', objectFit:'cover', display:'block', transition:'transform .6s'}} 
+                            onMouseEnter={(e) => e.currentTarget.style.transform='scale(1.05)'}
+                            onMouseLeave={(e) => e.currentTarget.style.transform='scale(1)'} />
+                          <div style={{position:'absolute', inset:0, background:'linear-gradient(180deg,transparent 50%,rgba(10,5,27,.9) 100%)'}} />
+                          <div style={{position:'absolute', bottom:12, left:16, display:'flex', gap:6, flexWrap:'wrap'}}>
+                            {project.tech.slice(0,3).map((t, i) => (
+                              <span key={i} style={{fontSize:'10px', fontFamily:'var(--font-mono)', padding:'3px 10px', background:'rgba(0,0,0,.5)', backdropFilter:'blur(4px)', borderRadius:6, color:'rgba(255,255,255,.8)', border:'1px solid rgba(255,255,255,.1)'}}>{t}</span>
+                            ))}
                           </div>
-                          <img src={project.imageSrc} alt={project.title} style={{width:'100%', display:'block', transition:'transform .5s'}} onMouseOver={(e) => e.currentTarget.style.transform='scale(1.03)'} onMouseOut={(e) => e.currentTarget.style.transform='scale(1)'} />
                         </div>
                       )}
-                      <div style={{display:'flex', alignItems:'center', gap:12, marginBottom:12}}>
-                        <div style={{padding:'10px', borderRadius:'16px', background:`linear-gradient(135deg,${project.color.includes('amber') ? '#f7b32b' : project.color.includes('purple') ? '#6b21e8' : project.color.includes('pink') ? '#ec1e79' : '#22d3ee'},${project.color.includes('amber') ? '#ffd45c' : project.color.includes('purple') ? '#8b3ff0' : project.color.includes('pink') ? '#f0508f' : '#0fb8ac'})`}}>
-                          {getIcon()}
-                        </div>
-                        <div>
-                          <h3 style={{fontSize:'18px', fontWeight:800, color:'white'}}>{project.title}</h3>
-                          <p style={{fontSize:'10px', fontFamily:'var(--font-mono)', color:'var(--gold-400)', fontWeight:700}}>KPI: {project.metric}</p>
-                        </div>
-                      </div>
-                      <p style={{fontSize:'13px', color:'rgba(182,172,217,.7)', lineHeight:1.6, marginBottom:12}}>{project.description}</p>
 
-                      <div style={{display:'flex', flexWrap:'wrap', gap:6, paddingTop:12, borderTop:'1px solid rgba(255,255,255,.05)', marginBottom:12}}>
-                        {project.tech.map((t, i) => (
-                          <span key={i} style={{fontSize:'10px', fontFamily:'var(--font-mono)', padding:'4px 10px', background:'rgba(255,255,255,.05)', borderRadius:6, color:'rgba(182,172,217,.6)'}}>{t}</span>
-                        ))}
-                      </div>
-
-                      <button onClick={() => setExpandedProject(expandedProject === project.id ? null : project.id)} style={{width:'100%', background:'rgba(255,255,255,.04)', border:'1px solid rgba(255,255,255,.08)', borderRadius:12, padding:'10px 16px', display:'flex', justifyContent:'space-between', alignItems:'center', color:'rgba(182,172,217,.6)', fontSize:'11px', fontFamily:'var(--font-mono)', cursor:'pointer'}}>
-                        <span>{expandedProject === project.id ? 'Hide Tech Blueprint' : 'View System Tech Blueprint'}</span>
-                        <span style={{color:'var(--gold-400)'}}>{expandedProject === project.id ? '[ - CLOSE ]' : '[ + INSPECT ]'}</span>
-                      </button>
-
-                      {expandedProject === project.id && (
-                        <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} style={{marginTop:12, background:'#05020c', border:'1px solid rgba(255,255,255,.08)', borderRadius:16, padding:16}}>
-                          <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:12}}>
-                            <div>
-                              <h4 style={{fontSize:'10px', fontFamily:'var(--font-mono)', color:'var(--gold-400)', marginBottom:8, textTransform:'uppercase', letterSpacing:'0.08em'}}>System Specifications</h4>
-                              {project.specs?.map((spec, sIdx) => (
-                                <div key={sIdx} style={{background:'rgba(255,255,255,.04)', border:'1px solid rgba(255,255,255,.05)', borderRadius:8, padding:'6px 10px', marginBottom:6}}>
-                                  <span style={{fontSize:'8px', color:'rgba(182,172,217,.4)', textTransform:'uppercase', fontFamily:'var(--font-mono)'}}>{spec.label}</span>
-                                  <p style={{fontSize:'10px', color:'white', fontFamily:'var(--font-mono)', fontWeight:700, marginTop:2}}>{spec.value}</p>
-                                </div>
-                              ))}
-                            </div>
-                            <div>
-                              <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', padding:'6px 10px', background:'rgba(17,9,42,.8)', border:'1px solid rgba(255,255,255,.08)', borderRadius:'8px 8px 0 0'}}>
-                                <span style={{fontSize:'9px', fontFamily:'var(--font-mono)', color:'rgba(182,172,217,.6)'}}>Code</span>
-                                <span style={{fontSize:'8px', fontFamily:'var(--font-mono)', color:'rgba(182,172,217,.3)'}}>READ_ONLY</span>
-                              </div>
-                              <pre style={{background:'rgba(0,0,0,.6)', border:'1px solid rgba(255,255,255,.08)', borderRadius:'0 0 8px 8px', padding:12, fontSize:'9px', fontFamily:'var(--font-mono)', color:'#34d399', overflowX:'auto', maxHeight:160, lineHeight:1.5, margin:0}}><code>{project.codeSnippet}</code></pre>
-                            </div>
+                      {/* Content */}
+                      <div style={{padding:'20px 22px 22px'}}>
+                        <div style={{display:'flex', alignItems:'center', gap:10, marginBottom:10}}>
+                          <div style={{width:36, height:36, borderRadius:10, display:'flex', alignItems:'center', justifyContent:'center', background:`linear-gradient(135deg,${gradFrom},${gradTo})`}}>
+                            {getIcon()}
                           </div>
-                        </motion.div>
-                      )}
+                          <div style={{flex:1}}>
+                            <div style={{fontSize:'11px', fontFamily:'var(--font-mono)', color:'rgba(182,172,217,.4)', letterSpacing:'.06em', marginBottom:1}}>{project.category}</div>
+                            <h3 style={{fontSize:'17px', fontWeight:700, color:'white', margin:0, lineHeight:1.2}}>{project.title}</h3>
+                          </div>
+                        </div>
 
-                      <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginTop:12}}>
-                        <span style={{fontSize:'10px', fontFamily:'var(--font-mono)', color:'rgba(182,172,217,.3)'}}>{`// CASE_STUDY_0${project.id === 'apexdex' ? '1' : project.id === 'cloudscale' ? '2' : project.id === 'equinox' ? '3' : '4'}`}</span>
-                        <button onClick={() => openOrderModal(`Consultation regarding: ${project.title}`)} style={{background:'none', border:'none', display:'flex', alignItems:'center', gap:6, color:'rgba(182,172,217,.6)', fontSize:'12px', fontWeight:700, cursor:'pointer'}}>
-                          Inquire System Setup <ArrowUpRight className="w-4 h-4" />
+                        <p style={{fontSize:'13px', color:'rgba(182,172,217,.65)', lineHeight:1.6, margin:'0 0 14px'}}>{project.description}</p>
+
+                        {/* Metric highlight */}
+                        <div style={{background:'rgba(247,179,43,.08)', border:'1px solid rgba(247,179,43,.15)', borderRadius:10, padding:'8px 14px', marginBottom:14, display:'flex', alignItems:'center', gap:8}}>
+                          <Award className="w-4 h-4" style={{color:'var(--gold-400)', flexShrink:0}} />
+                          <span style={{fontSize:'12px', fontWeight:600, color:'var(--gold-300)'}}>KPI: {project.metric}</span>
+                        </div>
+
+                        {/* Expand button */}
+                        <button onClick={(e) => { e.stopPropagation(); setExpandedProject(expandedProject === project.id ? null : project.id); }}
+                          style={{width:'100%', background:'rgba(255,255,255,.03)', border:'1px solid rgba(255,255,255,.06)', borderRadius:10, padding:'9px 14px', display:'flex', justifyContent:'space-between', alignItems:'center', color:'rgba(182,172,217,.5)', fontSize:'11px', fontFamily:'var(--font-mono)', cursor:'pointer', transition:'background .2s'}}
+                          onMouseEnter={(e) => e.currentTarget.style.background='rgba(255,255,255,.07)'}
+                          onMouseLeave={(e) => e.currentTarget.style.background='rgba(255,255,255,.03)'}>
+                          <span style={{display:'flex', alignItems:'center', gap:6}}>
+                            <Terminal className="w-3.5 h-3.5" />
+                            {expandedProject === project.id ? 'Hide Technical Specifications' : 'View Technical Specifications'}
+                          </span>
+                          <span style={{color:'var(--gold-400)', fontSize:'12px'}}>{expandedProject === project.id ? '−' : '+'}</span>
                         </button>
+
+                        {expandedProject === project.id && (
+                          <motion.div initial={{ opacity:0, height:0 }} animate={{ opacity:1, height:'auto' }} style={{marginTop:12}}>
+                            <div style={{background:'rgba(5,2,12,.6)', border:'1px solid rgba(255,255,255,.06)', borderRadius:12, padding:16}}>
+                              <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:10}}>
+                                <div>
+                                  <h4 style={{fontSize:'9px', fontFamily:'var(--font-mono)', color:'var(--gold-400)', marginBottom:8, textTransform:'uppercase', letterSpacing:'.06em'}}>Specifications</h4>
+                                  {project.specs?.map((spec, sIdx) => (
+                                    <div key={sIdx} style={{background:'rgba(255,255,255,.03)', border:'1px solid rgba(255,255,255,.04)', borderRadius:8, padding:'5px 10px', marginBottom:5}}>
+                                      <div style={{fontSize:'7.5px', color:'rgba(182,172,217,.35)', textTransform:'uppercase', fontFamily:'var(--font-mono)', letterSpacing:'.04em'}}>{spec.label}</div>
+                                      <div style={{fontSize:'9.5px', color:'white', fontFamily:'var(--font-mono)', fontWeight:600, marginTop:1}}>{spec.value}</div>
+                                    </div>
+                                  ))}
+                                </div>
+                                <div>
+                                  <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', padding:'5px 10px', background:'rgba(17,9,42,.7)', border:'1px solid rgba(255,255,255,.06)', borderRadius:'8px 8px 0 0'}}>
+                                    <span style={{fontSize:'8px', fontFamily:'var(--font-mono)', color:'rgba(182,172,217,.5)'}}>Source</span>
+                                    <span style={{fontSize:'7px', fontFamily:'var(--font-mono)', color:'rgba(182,172,217,.25)'}}>READ_ONLY</span>
+                                  </div>
+                                  <pre style={{background:'rgba(0,0,0,.5)', border:'1px solid rgba(255,255,255,.06)', borderRadius:'0 0 8px 8px', padding:10, fontSize:'8.5px', fontFamily:'var(--font-mono)', color:'#34d399', overflowX:'auto', maxHeight:140, lineHeight:1.5, margin:0, whiteSpace:'pre-wrap', wordBreak:'break-word'}}><code>{project.codeSnippet}</code></pre>
+                                </div>
+                              </div>
+                            </div>
+                          </motion.div>
+                        )}
+
+                        {/* Footer */}
+                        <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginTop:14, paddingTop:12, borderTop:'1px solid rgba(255,255,255,.04)'}}>
+                          <span style={{fontSize:'9px', fontFamily:'var(--font-mono)', color:'rgba(182,172,217,.25)'}}>{`// case-${project.id}`}</span>
+                          <button onClick={(e) => { e.stopPropagation(); openOrderModal(`Consultation regarding: ${project.title}`); }}
+                            style={{background:'none', border:'none', display:'flex', alignItems:'center', gap:5, color:'rgba(182,172,217,.55)', fontSize:'11.5px', fontWeight:600, cursor:'pointer', transition:'color .2s'}}
+                            onMouseEnter={(e) => e.currentTarget.style.color='var(--gold-400)'}
+                            onMouseLeave={(e) => e.currentTarget.style.color='rgba(182,172,217,.55)'}>
+                            Inquire Project <ArrowUpRight className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
                       </div>
                     </div>
                   );
