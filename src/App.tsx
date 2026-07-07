@@ -1,19 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { 
-  Code, Smartphone, Monitor, Palette, Briefcase, Megaphone, 
-  PhoneCall, Share2, ShieldCheck, Globe, Smile, Award, Clock, 
-  ArrowRight, ChevronRight, Check, Phone, Shield, Users, 
-  Star, Send, Sparkles, MessageSquare, Menu, X, ArrowUpRight, Lock, CheckCircle2, Zap, Cpu,
-  Layers, ExternalLink, Terminal
+import {
+  Code, Smartphone, Monitor, Palette, Briefcase, Megaphone,
+  PhoneCall, ShieldCheck, ArrowRight, ChevronRight, Check, Phone, Shield, Award,
+  Star, MessageSquare, Menu, X, ArrowUpRight, Cpu,
+  Layers, Terminal, CheckCircle2, Clock, Users
 } from "lucide-react";
-
-import { SERVICES, EXTRA_PRODUCTS, PARTNERS, STATS } from "./data";
+import { SERVICES, EXTRA_PRODUCTS } from "./data";
 import { Service } from "./types";
-import { Mockups } from "./components/Mockups";
 import { LeadModal } from "./components/LeadModal";
 import { TeamMemberModal } from "./components/TeamMemberModal";
-import { FloatingParticles } from "./components/FloatingParticles";
 
 const FAQS = [
   {
@@ -26,7 +22,7 @@ const FAQS = [
   },
   {
     question: "How experienced is the engineering and creative team?",
-    answer: "Our elite team is led by Blessed Francis (CEO & Lead Software Architect) and senior technologists. Each team member has 8+ years of production experience in React, Next.js, Kubernetes, and Web3 environments. We pride ourselves on clean code, SRE standards, and pixel-perfect brand identity layouts."
+    answer: "Our elite team is led by Eren Utsalo (CEO & Lead Software Architect) and senior technologists. Each team member has 8+ years of production experience in React, Next.js, Kubernetes, and Web3 environments. We pride ourselves on clean code, SRE standards, and pixel-perfect brand identity layouts."
   },
   {
     question: "What is your approach to brand identity and UI/UX design?",
@@ -48,23 +44,15 @@ const PROJECTS = [
     tech: ["Solidity", "ERC-20 Token", "React", "Ethers.js"],
     color: "from-amber-500 via-orange-500 to-yellow-400",
     iconName: "Cpu",
-    imageSrc: "/src/assets/images/apexdex_website_mockup_1783108355071.jpg",
     specs: [
       { label: "Contract Audited By", value: "ConsenSys Diligence" },
       { label: "AMM Formula Type", value: "Constant Product (x * y = k)" },
       { label: "Standard Implemented", value: "ERC-20 & ERC-2612 Permits" },
       { label: "Gas Optimization Level", value: "98.4% Yul Optimizer" }
     ],
-    codeSnippet: `// SPDX-License-Identifier: MIT
-pragma solidity ^0.8.20;
-
-import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
-
-contract ApexToken is ERC20, ReentrancyGuard {
+    codeSnippet: `contract ApexToken is ERC20, ReentrancyGuard {
     address public immutable governor;
     uint256 public constant MAX_SUPPLY = 100_000_000 * 10**18;
-
     constructor(address _gov) ERC20("Apex Utility Token", "APX") {
         governor = _gov;
         _mint(_gov, MAX_SUPPLY);
@@ -80,7 +68,6 @@ contract ApexToken is ERC20, ReentrancyGuard {
     tech: ["Kubernetes", "GCP Cloud", "Terraform", "Docker"],
     color: "from-purple-500 via-indigo-500 to-blue-600",
     iconName: "Terminal",
-    imageSrc: "/src/assets/images/cloudscale_panel_mockup_1783108366421.jpg",
     specs: [
       { label: "Cluster Type", value: "Multi-Region GKE Autopilot" },
       { label: "Infrastructure Code", value: "Terraform 1.5 Modular State" },
@@ -90,13 +77,9 @@ contract ApexToken is ERC20, ReentrancyGuard {
     codeSnippet: `resource "google_container_cluster" "primary" {
   name     = "cloudscale-production-cluster"
   location = "europe-west2"
-  
   enable_autopilot = true
   ip_allocation_policy {}
-
-  release_channel {
-    channel = "STABLE"
-  }
+  release_channel { channel = "STABLE" }
 }`
   },
   {
@@ -108,7 +91,6 @@ contract ApexToken is ERC20, ReentrancyGuard {
     tech: ["Brand Guidelines", "Logo design", "Framer Motion", "UI System"],
     color: "from-pink-500 via-rose-500 to-purple-600",
     iconName: "Palette",
-    imageSrc: "/src/assets/images/equinox_brand_mockup_1783108377728.jpg",
     specs: [
       { label: "Design Grid Standard", value: "8px Spatial Subgrid System" },
       { label: "Color Space Selection", value: "Bespoke DCI-P3 High-Contrast" },
@@ -118,10 +100,8 @@ contract ApexToken is ERC20, ReentrancyGuard {
     codeSnippet: `@theme {
   --font-display: "Space Grotesk", sans-serif;
   --font-editorial: "Playfair Display", serif;
-  
   --color-brand-gold: #e5c158;
   --color-brand-charcoal: #0e0d10;
-  
   --spacing-grid-gap: clamp(1rem, 4vw, 3.5rem);
 }`
   },
@@ -134,131 +114,24 @@ contract ApexToken is ERC20, ReentrancyGuard {
     tech: ["Next.js", "Node.js", "Redis Caching", "Tailwind CSS"],
     color: "from-cyan-500 via-teal-500 to-blue-600",
     iconName: "Layers",
-    imageSrc: "/src/assets/images/velopay_saas_mockup_1783108390567.jpg",
     specs: [
       { label: "Edge Response Latency", value: "Sub-12ms Memory Lookups" },
       { label: "Gateway Encryptions", value: "HMAC SHA-256 Signatures" },
       { label: "Primary Database", value: "Distributed CockroachDB Cluster" },
       { label: "Client Bundle Footprint", value: "72KB Gzipped Core Entry" }
     ],
-    codeSnippet: `import { NextRequest, NextResponse } from "next/server";
-import { createHmac } from "crypto";
-
-export async function POST(req: NextRequest) {
-  const signature = req.headers.get("x-velopay-signature");
+    codeSnippet: `export async function POST(req: NextRequest) {
+  const signature = req.headers.get("x-signature");
   const payload = await req.json();
-  
   const expected = createHmac("sha256", process.env.HMAC_SECRET!)
     .update(JSON.stringify(payload))
     .digest("hex");
-    
   if (signature !== expected) {
-    return NextResponse.json({ error: "Invalid Sign" }, { status: 401 });
+    return NextResponse.json({ error: "Invalid" }, { status: 401 });
   }
 }`
   }
 ];
-
-// Reusable High-Fidelity Custom SVG Logo for Vertex Fintech Ltd
-export const VertexLogo: React.FC<{ className?: string }> = ({ className = "w-10 h-10" }) => (
-  <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
-    <defs>
-      <linearGradient id="gradientV1" x1="0%" y1="100%" x2="100%" y2="0%">
-        <stop offset="0%" stopColor="#4f46e5" />
-        <stop offset="50%" stopColor="#ec4899" />
-        <stop offset="100%" stopColor="#f59e0b" />
-      </linearGradient>
-      <linearGradient id="gradientV2" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stopColor="#3b82f6" />
-        <stop offset="50%" stopColor="#a855f7" />
-        <stop offset="100%" stopColor="#f43f5e" />
-      </linearGradient>
-      <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
-        <feDropShadow dx="0" dy="4" stdDeviation="4" floodColor="#4f46e5" floodOpacity="0.25" />
-      </filter>
-    </defs>
-    
-    {/* Stylized, overlapping multi-segment V */}
-    <g filter="url(#shadow)">
-      {/* Background swoosh */}
-      <path
-        d="M20,30 Q35,85 55,95 T100,30"
-        stroke="url(#gradientV1)"
-        strokeWidth="14"
-        strokeLinecap="round"
-        fill="none"
-        opacity="0.9"
-      />
-      {/* Overlapping foreground segment */}
-      <path
-        d="M38,38 Q55,78 62,82 T90,32"
-        stroke="url(#gradientV2)"
-        strokeWidth="11"
-        strokeLinecap="round"
-        fill="none"
-        opacity="0.95"
-      />
-    </g>
-
-    {/* Elegant floating accent circles representing digital fintech nodes */}
-    <circle cx="20" cy="20" r="5" fill="#f59e0b" className="animate-pulse" />
-    <circle cx="100" cy="20" r="5" fill="#ec4899" />
-    <circle cx="55" cy="105" r="4" fill="#3b82f6" />
-    <circle cx="78" cy="65" r="3" fill="#a855f7" />
-  </svg>
-);
-
-// Splash Screen Component
-const SplashScreen: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
-  const [progress, setProgress] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setProgress((prev) => {
-        const next = prev + (80 / 24);
-        if (next >= 80) {
-          clearInterval(interval);
-          setTimeout(() => {
-            setProgress(100);
-            setTimeout(onComplete, 300);
-          }, 300);
-        }
-        return next;
-      });
-    }, 100);
-    return () => clearInterval(interval);
-  }, [onComplete]);
-
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#160a33]">
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-0 left-0 w-96 h-96 bg-purple-600/20 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 right-0 w-96 h-96 bg-pink-600/20 rounded-full blur-3xl" />
-      </div>
-      <div className="relative text-center z-10">
-        <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ duration: 0.5 }} className="mb-6">
-          <VertexLogo className="w-20 h-20 mx-auto" />
-        </motion.div>
-        <motion.h1 initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }} className="text-2xl font-bold text-white mb-2">
-          Vertex Fintech
-        </motion.h1>
-        <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5, delay: 0.2 }} className="text-sm text-neutral-400 font-mono tracking-wider uppercase">
-          Premium Digital Solutions
-        </motion.p>
-        <div className="mt-8 w-64 mx-auto">
-          <div className="relative h-1 bg-neutral-800 rounded-full overflow-hidden">
-            <motion.div initial={{ width: 0 }} animate={{ width: `${progress}%` }} transition={{ duration: 0.1 }} className="absolute top-0 left-0 h-full bg-gradient-to-r from-purple-500 via-pink-500 to-amber-400" />
-          </div>
-          <div className="flex justify-between mt-2 text-[10px] text-neutral-500 font-mono">
-            <span>READY</span>
-            <span>INITIALIZING</span>
-            <span>SYSTEMS</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
 
 const TEAM_MEMBERS = [
   {
@@ -272,7 +145,6 @@ const TEAM_MEMBERS = [
     color: "amber",
     colorClass: "from-amber-500 to-yellow-400",
     textClass: "text-amber-400",
-    borderHover: "hover:border-amber-400/30 shadow-amber-400/5",
     skills: ["Next.js", "Cloud SRE", "System Arch", "TypeScript", "Solidity", "Kubernetes"],
     achievements: [
       "Led the architecture of ApexDEX with $4.2M+ audited token volume",
@@ -291,7 +163,6 @@ const TEAM_MEMBERS = [
     color: "purple",
     colorClass: "from-purple-500 to-indigo-500",
     textClass: "text-purple-400",
-    borderHover: "hover:border-purple-400/30 shadow-purple-400/5",
     skills: ["Kubernetes", "Terraform", "AWS / GCP", "Docker", "SRE", "Prometheus"],
     achievements: [
       "Designed and deployed 120+ resilient Kubernetes cloud environments",
@@ -310,7 +181,6 @@ const TEAM_MEMBERS = [
     color: "pink",
     colorClass: "from-pink-500 to-rose-500",
     textClass: "text-pink-400",
-    borderHover: "hover:border-pink-400/30 shadow-pink-400/5",
     skills: ["React / Vite", "Tailwind CSS", "Design Tokens", "Framer Motion", "UI/UX", "Brand Design"],
     achievements: [
       "Crafted bespoke design guidelines and logos for Equinox luxury project",
@@ -329,7 +199,6 @@ const TEAM_MEMBERS = [
     color: "cyan",
     colorClass: "from-cyan-500 to-blue-500",
     textClass: "text-cyan-400",
-    borderHover: "hover:border-cyan-400/30 shadow-cyan-400/5",
     skills: ["Node / Express", "PostgreSQL", "REST / GraphQL", "Redis Caching", "API Security", "NoSQL"],
     achievements: [
       "Architected backend microservices handling 50k+ daily API requests securely",
@@ -339,12 +208,80 @@ const TEAM_MEMBERS = [
   }
 ];
 
+const VertexLogoSvg: React.FC<{ className?: string }> = ({ className = "w-10 h-10" }) => (
+  <svg viewBox="0 0 120 130" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
+    <defs>
+      <linearGradient id="vg1" x1="0" y1="0" x2="120" y2="130" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stopColor="#8b3ff0"/>
+        <stop offset="45%" stopColor="#6b21e8"/>
+        <stop offset="100%" stopColor="#f7b32b"/>
+      </linearGradient>
+      <linearGradient id="vg2" x1="0" y1="0" x2="120" y2="130" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stopColor="#22d3ee"/>
+        <stop offset="100%" stopColor="#8b3ff0"/>
+      </linearGradient>
+    </defs>
+    <path d="M14 20 C4 20 -2 34 8 46 L46 96 C56 108 70 108 80 96 L106 62" stroke="url(#vg1)" strokeWidth="13" strokeLinecap="round" fill="none"/>
+    <path d="M40 30 L64 62 L98 20" stroke="url(#vg2)" strokeWidth="15" strokeLinecap="round" fill="none"/>
+    <circle cx="12" cy="66" r="4" fill="#f7b32b"/>
+    <circle cx="104" cy="90" r="4" fill="#22d3ee"/>
+  </svg>
+);
+
+const SplashScreen: React.FC<{ onComplete: () => void }> = ({ onComplete }) => {
+  const [progress, setProgress] = useState(0);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setProgress((prev) => {
+        const next = prev + (80 / 24);
+        if (next >= 80) {
+          clearInterval(interval);
+          setTimeout(() => {
+            setProgress(100);
+            setTimeout(onComplete, 300);
+          }, 300);
+        }
+        return next;
+      });
+    }, 100);
+    return () => clearInterval(interval);
+  }, [onComplete]);
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center" style={{background:'var(--navy-950)'}}>
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute top-0 left-0 w-96 h-96" style={{background:'rgba(139,63,240,.2)', borderRadius:'50%', filter:'blur(80px)'}} />
+        <div className="absolute bottom-0 right-0 w-96 h-96" style={{background:'rgba(236,30,121,.2)', borderRadius:'50%', filter:'blur(80px)'}} />
+      </div>
+      <div className="relative text-center z-10">
+        <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ duration: 0.5 }} className="mb-6">
+          <VertexLogoSvg className="w-20 h-20 mx-auto" />
+        </motion.div>
+        <motion.h1 initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }} className="text-2xl font-bold text-white mb-2" style={{fontFamily:'var(--font-display)'}}>
+          Vertex Fintech
+        </motion.h1>
+        <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5, delay: 0.2 }} className="text-sm font-mono tracking-wider uppercase" style={{color:'var(--ink-dim)'}}>
+          Premium Digital Solutions
+        </motion.p>
+        <div className="mt-8 w-64 mx-auto">
+          <div className="relative h-1 rounded-full overflow-hidden" style={{background:'rgba(255,255,255,.1)'}}>
+            <motion.div initial={{ width: 0 }} animate={{ width: `${progress}%` }} transition={{ duration: 0.1 }} className="absolute top-0 left-0 h-full" style={{background:'linear-gradient(90deg,#8b3ff0,#ec1e79,#f7b32b)'}} />
+          </div>
+          <div className="flex justify-between mt-2 text-[10px] font-mono" style={{color:'rgba(182,172,217,.5)'}}>
+            <span>READY</span>
+            <span>INITIALIZING</span>
+            <span>SYSTEMS</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 export default function App() {
   const [activeService, setActiveService] = useState<Service>(SERVICES[0]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [preselectedProduct, setPreselectedProduct] = useState<string>("");
+  const [preselectedProduct, setPreselectedProduct] = useState("");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
   const [testimonialIndex, setTestimonialIndex] = useState(0);
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
   const [selectedTeamMember, setSelectedTeamMember] = useState<any | null>(null);
@@ -352,16 +289,6 @@ export default function App() {
   const [expandedProject, setExpandedProject] = useState<string | null>(null);
   const [showSplash, setShowSplash] = useState(true);
 
-  // Monitor page scroll to apply blur effects
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  // Splash screen effect
   useEffect(() => {
     const hasSeenSplash = localStorage.getItem('vertex-splash-seen');
     if (!hasSeenSplash) {
@@ -375,13 +302,10 @@ export default function App() {
     }
   }, []);
 
-  // Smooth scroll helper
   const scrollToId = (id: string) => {
     setMobileMenuOpen(false);
     const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
+    if (element) element.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   const openOrderModal = (productName: string) => {
@@ -390,1194 +314,632 @@ export default function App() {
   };
 
   const testimonials = [
-    {
-      quote: "Vertex Technology Ltd transformed our entire cloud setup and web presence. They migrated our legacy monolith to a Next.js serverless architecture with a zero-downtime CI/CD pipeline. Unbelievably fast and professional.",
-      author: "Farhan K.",
-      role: "CTO, Apex Enterprise Systems",
-      stars: 5
-    },
-    {
-      quote: "The web development and custom UI system Vertex built gave our SaaS platform a tier-1 premium look that rivals Stripe. Our page load speeds dropped to 0.1s and user signups immediately increased by 40%!",
-      author: "Chinedu O.",
-      role: "Founder, PayBreeze Tech",
-      stars: 5
-    },
-    {
-      quote: "Exceptional engineering quality and robust DevOps design. They didn't just build a beautiful web frontend; they set up our secure cloud databases, automated backups, and multi-zone AWS clusters.",
-      author: "Elena R.",
-      role: "Head of Product, FinFlow Europe",
-      stars: 5
-    },
-    {
-      quote: "Vertex team delivered an outstanding, highly secure ERC-20 token economy and Solidity contracts within record time. Their architectural insights into liquidity pools and Web3 integrations saved us weeks of audit iterations.",
-      author: "Marcus Y.",
-      role: "Lead Web3 Developer, Apex DeFi Labs",
-      stars: 5
-    },
-    {
-      quote: "The cloud migration Jeremiah and his DevOps squad executed was flawless. Our continuous-deployment builds now take under 2 minutes, and our auto-scaling group seamlessly handled a 300% traffic surge on launch day.",
-      author: "Amelie M.",
-      role: "Director of Engineering, CloudScale Logistics",
-      stars: 5
-    },
-    {
-      quote: "Vertex redefined our luxury branding from the ground up, providing responsive grid layouts and fluid motion assets that perfectly capture our haute couture identity. Elegant, high-performance, and exquisite.",
-      author: "Julian B.",
-      role: "Creative Director, Equinox Couture",
-      stars: 5
-    }
+    { quote: "Vertex Technology Ltd transformed our entire cloud setup and web presence. They migrated our legacy monolith to a Next.js serverless architecture with a zero-downtime CI/CD pipeline. Unbelievably fast and professional.", author: "Farhan K.", role: "CTO, Apex Enterprise Systems", stars: 5 },
+    { quote: "The web development and custom UI system Vertex built gave our SaaS platform a tier-1 premium look that rivals Stripe. Our page load speeds dropped to 0.1s and user signups immediately increased by 40%!", author: "Chinedu O.", role: "Founder, PayBreeze Tech", stars: 5 },
+    { quote: "Exceptional engineering quality and robust DevOps design. They didn't just build a beautiful web frontend; they set up our secure cloud databases, automated backups, and multi-zone AWS clusters.", author: "Elena R.", role: "Head of Product, FinFlow Europe", stars: 5 },
+    { quote: "Vertex team delivered an outstanding, highly secure ERC-20 token economy and Solidity contracts within record time. Their architectural insights into liquidity pools and Web3 integrations saved us weeks of audit iterations.", author: "Marcus Y.", role: "Lead Web3 Developer, Apex DeFi Labs", stars: 5 },
+    { quote: "The cloud migration Jeremiah and his DevOps squad executed was flawless. Our continuous-deployment builds now take under 2 minutes, and our auto-scaling group seamlessly handled a 300% traffic surge on launch day.", author: "Amelie M.", role: "Director of Engineering, CloudScale Logistics", stars: 5 },
+    { quote: "Vertex redefined our luxury branding from the ground up, providing responsive grid layouts and fluid motion assets that perfectly capture our haute couture identity. Elegant, high-performance, and exquisite.", author: "Julian B.", role: "Creative Director, Equinox Couture", stars: 5 }
   ];
+
+  const renderServiceIcon = (name: string, color: string) => {
+    const className = "w-5 h-5 text-white";
+    switch (name) {
+      case "Code": return <Code className={className} />;
+      case "Globe": return <GlobeIcon className={className} />;
+      case "Smartphone": return <Smartphone className={className} />;
+      case "Monitor": return <Monitor className={className} />;
+      case "Palette": return <Palette className={className} />;
+      case "Cpu": return <Cpu className={className} />;
+      case "Briefcase": return <Briefcase className={className} />;
+      case "Megaphone": return <Megaphone className={className} />;
+      default: return <Code className={className} />;
+    }
+  };
 
   return (
     <div>
-
       {showSplash ? (
         <SplashScreen onComplete={() => setShowSplash(false)} />
       ) : (
-        <div className="min-h-screen bg-[#FAF9FC] text-neutral-900 font-sans selection:bg-purple-600 selection:text-white overflow-x-hidden relative z-0">
-          
-          {/* Sleek Interface Background Blobs */}
-          <div className="absolute top-[-150px] right-[-100px] w-[500px] h-[500px] bg-gradient-to-tr from-purple-600 via-pink-500 via-orange-400 via-yellow-300 to-cyan-500 rounded-full blur-[110px] opacity-25 pointer-events-none -z-10 animate-gradient-loop animate-float-slow" />
-          <div className="absolute top-[800px] left-[-100px] w-[450px] h-[450px] bg-gradient-to-tr from-blue-600 via-cyan-400 via-purple-500 to-pink-500 rounded-full blur-[110px] opacity-20 pointer-events-none -z-10 animate-gradient-loop animate-float-reverse" />
-          <div className="absolute top-[1800px] right-[-100px] w-[550px] h-[550px] bg-gradient-to-tr from-pink-500 via-orange-400 via-yellow-400 to-cyan-500 rounded-full blur-[130px] opacity-15 pointer-events-none -z-10 animate-gradient-loop animate-float-slow" />
-          <div className="absolute bottom-[200px] left-[-100px] w-[500px] h-[500px] bg-gradient-to-tr from-purple-600 via-blue-500 via-cyan-400 to-pink-500 rounded-full blur-[120px] opacity-20 pointer-events-none -z-10 animate-gradient-loop animate-float-reverse" />
-
-          {/* Background Particle layer behind header/hero */}
-          <div className="absolute top-0 left-0 w-full h-[850px] overflow-hidden pointer-events-none -z-10">
-            <FloatingParticles />
+        <>
+          {/* ============ BRANDMARK ============ */}
+          <div className="brandmark">
+            <VertexLogoSvg className="w-[120px] h-[130px] mx-auto" />
+            <h1>VERTEX <span style={{fontWeight:800}}>FINTECH LTD</span></h1>
+            <p className="tagline">INNOVATE &middot; CREATE &middot; ELEVATE</p>
           </div>
 
-          {/* 1. NAVIGATION BAR */}
-          <header className={`fixed top-4 left-1/2 -translate-x-1/2 w-[92%] max-w-7xl z-40 transition-all duration-300 ${
-            scrolled ? "top-2" : "top-4"
-          }`}>
-          <div className={`w-full rounded-2xl px-4 sm:px-6 py-3 flex items-center justify-between transition-all ${
-            scrolled 
-              ? "bg-[#160b33]/92 backdrop-blur-md border border-[#2e1d5e] shadow-xl" 
-              : "bg-[#21104D]/95 border border-white/5 shadow-lg"
-          }`}>
-            {/* Logo Brand */}
-            <div className="flex items-center gap-2.5 cursor-pointer group" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
-              <div className="transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6">
-                <VertexLogo className="w-8 h-8 sm:w-9 sm:w-9" />
-              </div>
-              <div className="text-left">
-                <span className="block text-white font-extrabold text-xs sm:text-sm tracking-widest font-sans uppercase transition-colors duration-300 group-hover:text-amber-400">
-                  Vertex
-                </span>
-                <span className="block text-amber-400 font-mono text-[8px] sm:text-[9px] font-bold tracking-widest leading-none">
-                  FINTECH LTD
-                </span>
-              </div>
-            </div>
-
-            {/* Desktop Links */}
-            <nav className="hidden lg:flex items-center gap-7 text-xs font-semibold text-neutral-200">
-              {[
-            { label: "Home", action: () => window.scrollTo({ top: 0, behavior: "smooth" }) },
-            { label: "Services", action: () => scrollToId("services") },
-            { label: "Products", action: () => scrollToId("products") },
-            { label: "About Us", action: () => scrollToId("about") },
-            { label: "Why Us", action: () => scrollToId("why-us") },
-            { label: "Portfolio", action: () => scrollToId("portfolio") },
-            { label: "FAQ", action: () => scrollToId("faq") },
-            { label: "Contact", action: () => scrollToId("contact") }
-          ].map((link, idx) => (
-            <button
-              key={idx}
-              onClick={link.action}
-              className="hover:text-amber-400 hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer relative py-1 text-neutral-200 group"
-            >
-              {link.label}
-              <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-amber-400 transition-all duration-300 group-hover:w-full" />
-            </button>
-          ))}
-        </nav>
-
-        {/* Right Action Button */}
-        <div className="flex items-center gap-3">
-          <button
-            onClick={() => openOrderModal("General Consulting / Getting Started")}
-            className="bg-amber-400 hover:bg-amber-500 hover:scale-105 hover:-translate-y-0.5 text-neutral-950 px-4 py-2 sm:py-2.5 rounded-xl font-bold text-xs flex items-center gap-1 shadow-lg shadow-amber-400/10 hover:shadow-amber-400/30 active:scale-95 transition-all duration-300 cursor-pointer"
-          >
-            Get Started
-            <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-          </button>
-
-            {/* Mobile menu toggle */}
-            <button 
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-1.5 rounded-lg text-white hover:bg-white/10 lg:hidden transition-colors cursor-pointer"
-            >
-              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-            </button>
-          </div>
-        </div>
-
-        {/* Mobile menu dropdown */}
-        <AnimatePresence>
-          {mobileMenuOpen && (
-            <motion.div
-              initial={{ opacity: 0, y: -15 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -15 }}
-              className="absolute top-16 left-0 right-0 bg-[#160b33]/95 backdrop-blur-xl border border-[#2e1d5e] rounded-2xl p-5 flex flex-col gap-3 shadow-2xl lg:hidden text-sm z-30"
-            >
-              {/* Header with Title and explicit Close button */}
-              <div className="flex items-center justify-between pb-3 border-b border-white/5 mb-1">
-                <span className="font-bold text-amber-400 font-mono text-[10px] uppercase tracking-widest">Navigation Menu</span>
-                <button 
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="p-1 px-2.5 rounded-lg bg-white/5 border border-white/10 text-neutral-300 hover:text-white hover:bg-white/10 transition-all flex items-center gap-1 text-[11px] font-semibold cursor-pointer"
-                  aria-label="Close mobile menu"
-                >
-                  <X className="w-3.5 h-3.5" />
-                  <span>Close</span>
-                </button>
-              </div>
-
-              <button onClick={() => { window.scrollTo({ top: 0, behavior: "smooth" }); setMobileMenuOpen(false); }} className="text-left text-neutral-200 hover:text-amber-400 py-1.5 font-medium border-b border-white/5">Home</button>
-              <button onClick={() => { scrollToId("services"); setMobileMenuOpen(false); }} className="text-left text-neutral-200 hover:text-amber-400 py-1.5 font-medium border-b border-white/5">Services</button>
-              <button onClick={() => { scrollToId("products"); setMobileMenuOpen(false); }} className="text-left text-neutral-200 hover:text-amber-400 py-1.5 font-medium border-b border-white/5">Products</button>
-              <button onClick={() => { scrollToId("about"); setMobileMenuOpen(false); }} className="text-left text-neutral-200 hover:text-amber-400 py-1.5 font-medium border-b border-white/5">About Us</button>
-              <button onClick={() => { scrollToId("why-us"); setMobileMenuOpen(false); }} className="text-left text-neutral-200 hover:text-amber-400 py-1.5 font-medium border-b border-white/5">Why Us</button>
-              <button onClick={() => { scrollToId("portfolio"); setMobileMenuOpen(false); }} className="text-left text-neutral-200 hover:text-amber-400 py-1.5 font-medium border-b border-white/5">Portfolio</button>
-              <button onClick={() => { scrollToId("faq"); setMobileMenuOpen(false); }} className="text-left text-neutral-200 hover:text-amber-400 py-1.5 font-medium border-b border-white/5">FAQ</button>
-              <button onClick={() => { scrollToId("contact"); setMobileMenuOpen(false); }} className="text-left text-neutral-200 hover:text-amber-400 py-1.5 font-medium">Contact</button>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </header>
-
-      {/* 2. HERO CONTAINER (DEEP PURPLE ROUNDED BOX WITH ANIMATED GRADIENT) */}
-      <main className="pt-24 sm:pt-28 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-        <div className="bg-gradient-to-tr from-[#160a33] via-[#21104D] via-[#33114d] via-[#10143a] via-[#1c0f42] to-[#160a33] animate-gradient-loop rounded-[40px] lg:rounded-[48px] p-6 sm:p-8 lg:p-12 text-white relative overflow-hidden border border-white/10 shadow-2xl">
-          
-          {/* Ambient Purple Grid Overlay & Glowing Circles */}
-          <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_top_right,rgba(113,63,252,0.25),transparent_60%)] pointer-events-none" />
-          <div className="absolute bottom-0 left-10 w-96 h-96 bg-[#ec4899]/20 rounded-full blur-3xl pointer-events-none" />
-          
-          {/* Main Hero grid split (Left Content with Headings, Right Device Showcase) */}
-          <div className="grid grid-cols-12 gap-3 sm:gap-6 md:gap-10 items-center relative z-10">
-            
-            {/* Left Side Info column */}
-            <div className="col-span-7 text-left space-y-3 sm:space-y-5 lg:space-y-7">
-              
-              {/* Badge with simples design write up */}
-              <div className="inline-flex items-center gap-1 bg-white/5 border border-white/10 px-2 sm:px-3.5 py-1 sm:py-1.5 rounded-full text-[8px] xs:text-[10px] sm:text-xs font-semibold text-[#fcd34d] font-mono uppercase tracking-wider shadow-sm hover:scale-105 transition-transform duration-300">
-                Premium Web Craftsmanship
-              </div>
-
-              {/* Headings */}
-              <div className="space-y-1 sm:space-y-2">
-                <h1 className="text-xl xs:text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight font-sans leading-none sm:leading-tight">
-                  We Build.<br />
-                  We Design.<br />
-                  <span className="bg-gradient-to-r from-orange-400 via-pink-500 via-purple-400 via-cyan-400 via-yellow-300 to-orange-400 bg-clip-text text-transparent animate-gradient-loop text-gradient-shimmer">
-                    We Grow.
-                  </span>
-                </h1>
-              </div>
-
-              {/* Paragraph tailored to web development */}
-              <p className="text-[10px] sm:text-sm md:text-base text-neutral-300/90 leading-relaxed max-w-xl font-sans">
-                Vertex Fintech Ltd designs and delivers high-performance web applications, resilient financial tech, cloud systems, and bespoke digital solutions built to scale.
-              </p>
-
-              {/* Responsive Buttons Row */}
-              <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 pt-1 sm:pt-2">
-                <button
-                  onClick={() => scrollToId("services")}
-                  className="bg-amber-400 hover:bg-amber-500 hover:scale-105 hover:-translate-y-0.5 text-neutral-950 px-3 sm:px-5 py-2 sm:py-3 rounded-xl sm:rounded-2xl font-extrabold text-[10px] sm:text-xs flex items-center justify-center gap-1 sm:gap-1.5 shadow-lg shadow-amber-400/10 hover:shadow-amber-400/30 active:scale-95 transition-all duration-300 cursor-pointer"
-                >
-                  Explore Services
-                  <ArrowRight className="w-3 sm:w-4 h-3 sm:h-4" />
-                </button>
-                <a
-                  href="https://wa.me/2348158432605?text=Hello%20Vertex%20Technology%20Ltd,%20I'd%20like%20to%20consult%20on%20your%20web%20development%20and%20cloud%20engineering%20solutions."
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-white/5 hover:bg-white/10 hover:border-white/20 hover:scale-105 hover:-translate-y-0.5 text-white border border-white/10 px-3 sm:px-5 py-2 sm:py-3 rounded-xl sm:rounded-2xl font-semibold text-[10px] sm:text-xs flex items-center justify-center gap-1 sm:gap-2 active:scale-95 transition-all duration-300"
-                >
-                  <Phone className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-emerald-400" />
-                  <span>Consult</span>
-                  <span className="font-mono text-amber-300 hidden xs:inline">08158432605</span>
+          {/* ============ HEADER / HERO ============ */}
+          <header>
+            <div className="wrap">
+              <nav>
+                <a href="#" className="logo" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); }}>
+                  <svg width="30" height="32" viewBox="0 0 120 130" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path d="M14 20 C4 20 -2 34 8 46 L46 96 C56 108 70 108 80 96 L106 62" stroke="url(#vg1)" strokeWidth="15" strokeLinecap="round" fill="none"/>
+                    <path d="M40 30 L64 62 L98 20" stroke="url(#vg2)" strokeWidth="17" strokeLinecap="round" fill="none"/>
+                  </svg>
+                  <span>VERTEX<span className="logo-sub">FINTECH LTD</span></span>
                 </a>
-              </div>
-            </div>
-
-            {/* Right: Device Showcase Component (sitting right next to the heading text) */}
-            <div className="col-span-5 w-full flex items-center justify-center overflow-visible h-[140px] xs:h-[180px] sm:h-[260px] md:h-[320px] lg:h-[420px] animate-float-slow">
-              <div className="scale-[0.38] xs:scale-[0.5] sm:scale-[0.68] md:scale-[0.85] lg:scale-100 origin-center transform transition-all duration-300 pointer-events-auto">
-                <Mockups 
-                  activeService={activeService} 
-                  onSelectService={setActiveService}
-                  services={SERVICES}
-                />
-              </div>
-            </div>
-
-          </div>
-
-          {/* Quick Tip Bar at bottom of Hero removed */}
-
-        </div>
-      </main>
-
-      {/* 3. PARTNERS / MARQUEE ROW */}
-      <section className="py-8 bg-white border-b border-neutral-100 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <p className="text-[10px] uppercase tracking-widest text-neutral-400 font-bold font-mono">
-            Trusted By Clients Worldwide
-          </p>
-          
-          {/* Flex wrap list of clean text partners */}
-          <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-12 mt-4 text-neutral-400 select-none">
-            {PARTNERS.map((partner, index) => (
-              <div 
-                key={index} 
-                className="flex items-center gap-1.5 hover:text-neutral-900 transition-colors duration-300 filter grayscale opacity-60 hover:opacity-100 hover:grayscale-0 font-sans font-extrabold text-base sm:text-lg tracking-tight"
-              >
-                <div className="w-5 h-5 bg-neutral-100 rounded p-0.5 text-neutral-500">
-                  <CheckCircle2 className="w-full h-full text-neutral-500" />
+                <ul className="navlinks">
+                  <li><button onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>Home</button></li>
+                  <li><button onClick={() => scrollToId("services")}>Services</button></li>
+                  <li><button onClick={() => scrollToId("products")}>Products</button></li>
+                  <li><button onClick={() => scrollToId("about")}>About Us</button></li>
+                  <li><button onClick={() => scrollToId("why")}>Why Us</button></li>
+                  <li><button onClick={() => scrollToId("contact")}>Contact</button></li>
+                </ul>
+                <div className="navbar-cta">
+                  <a href="#contact" className="btn btn-gold" onClick={(e) => { e.preventDefault(); scrollToId("contact"); }}>
+                    Get Started <ArrowRight className="w-4 h-4" />
+                  </a>
                 </div>
-                <span>{partner.name}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+                <button className="nav-toggle p-2 text-white" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+                  {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                </button>
+              </nav>
 
-      {/* 4. WHAT WE OFFER SECTION */}
-      <section id="services" className="py-16 sm:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        {/* Section Header */}
-        <div className="text-center max-w-xl mx-auto mb-12 sm:mb-16">
-          <div className="inline-flex items-center gap-1.5 text-purple-600 font-mono text-[10px] font-bold uppercase tracking-wider mb-2">
-            <Sparkles className="w-4 h-4 text-purple-600" />
-            Innovative Digital Solutions
-          </div>
-          <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-neutral-900 font-sans">
-            What We Offer
-          </h2>
-          {/* Wave Accent Line */}
-          <div className="w-16 h-1.5 bg-gradient-to-r from-purple-600 to-amber-400 rounded-full mx-auto mt-3" />
-          <p className="text-xs sm:text-sm text-neutral-500 mt-4 leading-relaxed">
-            Professional global digital solutions customized perfectly to streamline your operations and grow your digital presence.
-          </p>
-        </div>
-
-        {/* Main interactive row split: Services grid on left, "We Also Provide" products list on right */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          
-          {/* Services Grid (6 Core Cards) */}
-          <div className="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-4">
-            {SERVICES.map((service) => {
-              const isActive = activeService.id === service.id;
-              
-              // Icon Map
-              const renderServiceIcon = (name: string) => {
-                const props = { className: `w-5 h-5 ${service.textColor}` };
-                switch (name) {
-                  case "Code": return <Code {...props} />;
-                  case "Smartphone": return <Smartphone {...props} />;
-                  case "Monitor": return <Monitor {...props} />;
-                  case "Palette": return <Palette {...props} />;
-                  case "Briefcase": return <Briefcase {...props} />;
-                  case "Megaphone": return <Megaphone {...props} />;
-                  case "Cpu": return <Cpu {...props} />;
-                  default: return <Code {...props} />;
-                }
-              };
-
-              return (
-                <motion.div
-                  key={service.id}
-                  onClick={() => {
-                    setActiveService(service);
-                    // Light scroll to device mockup to help see the screen change if on mobile
-                    if (window.innerWidth < 1024) {
-                      window.scrollTo({ top: 150, behavior: "smooth" });
-                    }
-                  }}
-                  className={`cursor-pointer text-left p-5 rounded-2xl border transition-all duration-300 relative overflow-hidden group hover-premium ${
-                    isActive
-                      ? "bg-white border-purple-500 shadow-xl ring-2 ring-purple-100 animate-glow-pulse"
-                      : "bg-white border-neutral-100 hover:border-purple-500/30 shadow-sm"
-                  }`}
-                >
-                  {/* Subtle colored card light highlight */}
-                  <div className={`absolute top-0 left-0 h-1 w-full bg-gradient-to-r ${service.gradient}`} />
-                  
-                  <div className="flex items-center gap-3.5 mb-3">
-                    <div className="p-2.5 rounded-xl bg-neutral-50 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300">
-                      {renderServiceIcon(service.iconName)}
-                    </div>
-                    <h3 className="font-extrabold text-sm sm:text-base text-neutral-900 group-hover:text-purple-600 transition-colors duration-300">
-                      {service.title}
-                    </h3>
-                  </div>
-
-                  <p className="text-xs text-neutral-500 leading-relaxed mb-4">
-                    {service.description}
-                  </p>
-
-                  {/* Bullet micro features inside card */}
-                  <div className="space-y-1.5 mb-4 border-t border-neutral-50 pt-3">
-                    {service.features.map((feature, i) => (
-                      <div key={i} className="flex items-center gap-1.5 text-[11px] text-neutral-600">
-                        <Check className="w-3.5 h-3.5 text-emerald-500 flex-shrink-0" />
-                        <span className="truncate">{feature}</span>
-                      </div>
-                    ))}
-                  </div>
-
-                  {/* Order Button inside Card */}
-                  <div className="flex items-center justify-between text-xs font-bold pt-1">
-                    <span className="text-neutral-400 font-mono text-[10px] uppercase">Vertex Premium Svc</span>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        openOrderModal(service.title);
-                      }}
-                      className="bg-neutral-50 hover:bg-purple-600 hover:scale-105 active:scale-95 text-neutral-700 hover:text-white px-3 py-1.5 rounded-lg transition-all duration-200 border border-neutral-200/80 hover:border-purple-600 text-[10px] flex items-center gap-1 hover:shadow-md hover:shadow-purple-600/15"
-                    >
-                      Order Setup
-                      <ArrowUpRight className="w-3 h-3 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-                    </button>
-                  </div>
+              {mobileMenuOpen && (
+                <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="mobile-nav mb-4">
+                  <button onClick={() => { window.scrollTo({ top: 0, behavior: "smooth" }); setMobileMenuOpen(false); }}>Home</button>
+                  <button onClick={() => { scrollToId("services"); setMobileMenuOpen(false); }}>Services</button>
+                  <button onClick={() => { scrollToId("products"); setMobileMenuOpen(false); }}>Products</button>
+                  <button onClick={() => { scrollToId("about"); setMobileMenuOpen(false); }}>About Us</button>
+                  <button onClick={() => { scrollToId("why"); setMobileMenuOpen(false); }}>Why Us</button>
+                  <button onClick={() => { scrollToId("contact"); setMobileMenuOpen(false); }}>Contact</button>
                 </motion.div>
-              );
-            })}
+              )}
+            </div>
+
+            {/* ============ HERO ============ */}
+            <div className="hero">
+              <div className="wrap">
+                <div className="hero-grid">
+                  <div className="hero-copy">
+                    <span className="eyebrow">🌐 Global. Trusted. Recognized.</span>
+                    <h2>We Build. We Design.<br />We <span className="accent-pink">Grow</span> <span className="accent-gold">Brands.</span></h2>
+                    <p>Vertex Fintech Ltd provides professional digital solutions that help businesses and individuals thrive globally.</p>
+                    <div className="hero-cta">
+                      <a href="#services" className="btn btn-gold" onClick={(e) => { e.preventDefault(); scrollToId("services"); }}>
+                        Explore Services <ArrowRight className="w-4 h-4" />
+                      </a>
+                      <a href="tel:08158432605" className="btn btn-ghost">📞 08158432605</a>
+                    </div>
+                  </div>
+
+                  <div className="device-stage">
+                    <div className="floating-icon fi-1 animate-float"><Code className="w-5 h-5 text-white" /></div>
+                    <div className="floating-icon fi-2 animate-float"><GlobeIcon className="w-5 h-5 text-white" /></div>
+                    <div className="floating-icon fi-3 animate-float"><Smartphone className="w-5 h-5 text-white" /></div>
+                    <div className="floating-icon fi-4 animate-float"><Shield className="w-5 h-5 text-white" /></div>
+
+                    <div className="phone">
+                      <div className="phone-body">
+                        <div className="phone-screen">
+                          <VertexLogoSvg className="w-[38px] h-[42px]" />
+                          <span className="screen-word">VERTEX</span>
+                          <span className="screen-sub">FINTECH LTD</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="laptop">
+                      <div className="laptop-screen">
+                        <div className="laptop-screen-inner">
+                          <VertexLogoSvg className="w-16 h-[70px]" />
+                          <span className="screen-word" style={{fontSize:'20px'}}>VERTEX</span>
+                          <span className="screen-sub" style={{fontSize:'9px'}}>FINTECH LTD</span>
+                        </div>
+                      </div>
+                      <div className="laptop-base"></div>
+                    </div>
+                  </div>
+
+                  <div className="trust-panel">
+                    <div>
+                      <span className="eyebrow">Registered &amp; Recognized</span>
+                      <h3>As a global business worldwide</h3>
+                      <div className="trust-stats" style={{marginTop:22}}>
+                        <div className="trust-stat">
+                          <Shield className="w-5 h-5" />
+                          <span><b>Registered</b>Business</span>
+                        </div>
+                        <div className="trust-stat">
+                          <GlobeIcon className="w-5 h-5" />
+                          <span><b>Global</b>Recognition</span>
+                        </div>
+                        <div className="trust-stat">
+                          <CheckCircle2 className="w-5 h-5" />
+                          <span><b>Trusted</b>Worldwide</span>
+                        </div>
+                        <div className="trust-stat">
+                          <Users className="w-5 h-5" />
+                          <span><b>Serving</b>Clients Globally</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="worldmap">
+                      <svg viewBox="0 0 400 160" xmlns="http://www.w3.org/2000/svg">
+                        <g fill="rgba(255,255,255,.12)">
+                          <ellipse cx="70" cy="60" rx="45" ry="26"/>
+                          <ellipse cx="150" cy="90" rx="30" ry="22"/>
+                          <ellipse cx="230" cy="55" rx="50" ry="28"/>
+                          <ellipse cx="320" cy="85" rx="42" ry="24"/>
+                        </g>
+                      </svg>
+                      <div className="pin" style={{background:'var(--pink-500)', left:'16%', top:'20%'}} />
+                      <div className="pin" style={{background:'var(--cyan-400)', left:'36%', top:'8%'}} />
+                      <div className="pin" style={{background:'var(--gold-400)', left:'58%', top:'44%'}} />
+                      <div className="pin" style={{background:'#1665c9', left:'80%', top:'14%'}} />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </header>
+
+          {/* ============ WHAT WE OFFER ============ */}
+          <section className="section" id="services">
+            <div className="wrap">
+              <div className="section-head">
+                <span className="wig">〜</span>
+                <h3>What We Offer</h3>
+                <span className="wig">〜</span>
+              </div>
+
+              <div className="services-layout">
+                <div className="services-grid">
+                  {SERVICES.map((service) => (
+                    <div
+                      key={service.id}
+                      className={`service-card${activeService.id === service.id ? ' active' : ''}`}
+                      onClick={() => setActiveService(service)}
+                    >
+                      <div className="service-icon" style={{background: service.gradient.includes('purple') ? 'linear-gradient(135deg,#6b21e8,#8b3ff0)' : service.gradient.includes('pink') ? 'linear-gradient(135deg,#ec1e79,#f0508f)' : service.gradient.includes('amber') || service.gradient.includes('yellow') ? 'linear-gradient(135deg,#f7b32b,#ffd45c)' : service.gradient.includes('cyan') || service.gradient.includes('teal') ? 'linear-gradient(135deg,#22d3ee,#0fb8ac)' : service.gradient.includes('violet') || service.gradient.includes('fuchsia') ? 'linear-gradient(135deg,#6b21e8,#8b3ff0)' : service.gradient.includes('emerald') ? 'linear-gradient(135deg,#10b981,#34d399)' : 'linear-gradient(135deg,#6b21e8,#8b3ff0)'}}>
+                        {renderServiceIcon(service.iconName, service.textColor)}
+                      </div>
+                      <h4>{service.title}</h4>
+                      <p>{service.description}</p>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="provide-panel" id="products">
+                  <h3>We Also Provide</h3>
+                  {EXTRA_PRODUCTS.map((prod, idx) => (
+                    <div className="provide-item" key={prod.id} style={{cursor:'pointer'}} onClick={() => openOrderModal(prod.title)}>
+                      <div className="provide-icon" style={{background: idx === 0 ? '#1665c9' : idx === 1 ? '#ec1e79' : '#f7b32b'}}>
+                        {idx === 0 ? <PhoneCall className="w-[18px] h-[18px] text-white" /> : idx === 1 ? <Users className="w-[18px] h-[18px] text-white" /> : <Shield className="w-[18px] h-[18px] text-white" />}
+                      </div>
+                      <div>
+                        <h5>{prod.title}</h5>
+                        <p>{prod.description}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* ============ TRUSTED BY ============ */}
+          <div className="trusted-strip">
+            <div className="wrap">
+              <div className="wrap-inner">
+                <span className="label">Trusted By Clients Worldwide</span>
+                <div className="trusted-logos">
+                  <span>Google</span>
+                  <span>Microsoft</span>
+                  <span>Airbnb</span>
+                  <span>Amazon</span>
+                  <span>Shopify</span>
+                  <span>Meta</span>
+                  <span>TikTok</span>
+                </div>
+              </div>
+            </div>
           </div>
 
-          {/* Right Side: We Also Provide Column */}
-          <div id="products" className="lg:col-span-4 space-y-4">
-            
-            {/* Box container */}
-            <div className="bg-[#1C0F42]/95 text-white rounded-3xl p-6 border border-white/10 shadow-2xl text-left backdrop-blur-md hover-premium-dark">
-              <span className="bg-amber-400/10 text-amber-400 border border-amber-400/20 text-[9px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider font-mono">
-                Exclusive Provisions
-              </span>
-              <h3 className="text-lg sm:text-xl font-bold font-sans mt-2 mb-1 text-white">
-                We Also Provide
-              </h3>
-              <p className="text-xs text-neutral-300 leading-relaxed mb-5">
-                Acquire pre-verified assets, country phone numbers, and social business channels optimized directly for global ad operations.
-              </p>
+          {/* ============ STATS BAR ============ */}
+          <div className="stats-bar">
+            <div className="wrap">
+              <div className="stats-row">
+                <div className="stat">
+                  <div className="stat-icon"><SmileIcon className="w-5 h-5 text-white" /></div>
+                  <div><b>1500+</b><span>Happy Clients</span></div>
+                </div>
+                <div className="stat">
+                  <div className="stat-icon"><Award className="w-5 h-5 text-white" /></div>
+                  <div><b>2500+</b><span>Projects Completed</span></div>
+                </div>
+                <div className="stat">
+                  <div className="stat-icon"><GlobeIcon className="w-5 h-5 text-white" /></div>
+                  <div><b>50+</b><span>Countries Served</span></div>
+                </div>
+                <div className="stat">
+                  <div className="stat-icon"><Clock className="w-5 h-5 text-white" /></div>
+                  <div><b>24/7</b><span>Customer Support</span></div>
+                </div>
+                <div className="stat">
+                  <div className="stat-icon"><Phone className="w-5 h-5 text-white" /></div>
+                  <div><b>08158432605</b><span>Call / WhatsApp</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
 
-              {/* Extra products lists */}
-              <div className="space-y-3.5">
-                {EXTRA_PRODUCTS.map((prod) => {
+          {/* ============ TEAM SECTION ============ */}
+          <section className="team-section" id="team">
+            <div className="wrap">
+              <div className="text-center mb-12">
+                <span className="eyebrow justify-center" style={{color:'var(--gold-400)'}}>Expert Technical Leadership</span>
+                <h2 className="text-3xl sm:text-4xl font-bold mt-3 mb-3" style={{fontFamily:'var(--font-display)'}}>Meet Our Visionary Architects</h2>
+                <p style={{color:'var(--ink-dim)', fontSize:'14px', maxWidth:520, margin:'0 auto', lineHeight:1.6}}>
+                  Our elite team combines decades of experience in React ecosystems, Kubernetes containerization, and advanced software modeling.
+                </p>
+              </div>
+              <div className="team-grid">
+                {TEAM_MEMBERS.map((member) => (
+                  <div key={member.id} className="team-card" onClick={() => { setSelectedTeamMember(member); setIsTeamModalOpen(true); }}>
+                    <div className="team-avatar">
+                      {member.image ? (
+                        <img src={member.image} alt={member.name} referrerPolicy="no-referrer" />
+                      ) : (
+                        <div className="initials">{member.name.charAt(0)}</div>
+                      )}
+                    </div>
+                    <h4>{member.name}</h4>
+                    <p className="role" style={{color:'var(--gold-400)'}}>{member.role}</p>
+                    <p className="bio">{member.bio}</p>
+                    <div className="team-skills">
+                      {member.skills.slice(0, 3).map((skill, i) => (
+                        <span key={i}>{skill}</span>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* ============ ABOUT SECTION ============ */}
+          <section className="about-section" id="about">
+            <div className="wrap">
+              <div className="about-grid">
+                <div className="about-left">
+                  <span className="eyebrow" style={{color:'var(--gold-400)', color:'#b8860b'}}>About Vertex Fintech Ltd</span>
+                  <h2>Empowering Brands<br />With Digital Excellence</h2>
+                  <p>
+                    Founded with the vision to blend high-fidelity software engineering with robust cloud deployments, Vertex Fintech Ltd has grown into a trusted partner for 350+ corporate enterprises, fast-growing startups, and global agencies.
+                  </p>
+                  <div className="about-features">
+                    <div className="about-feature">
+                      <div className="about-feature-icon" style={{background:'rgba(16,185,129,.1)'}}><Check className="w-[18px] h-[18px]" style={{color:'#10b981'}} /></div>
+                      <div>
+                        <h4 style={{fontSize:'14px', fontWeight:700, color:'var(--navy-950)'}}>Enterprise SLA Standards</h4>
+                        <p style={{fontSize:'12.5px', color:'#6b6483', lineHeight:1.5}}>We pledge 99.99% system uptime for cloud networks and continuous maintenance support.</p>
+                      </div>
+                    </div>
+                    <div className="about-feature">
+                      <div className="about-feature-icon" style={{background:'rgba(16,185,129,.1)'}}><Check className="w-[18px] h-[18px]" style={{color:'#10b981'}} /></div>
+                      <div>
+                        <h4 style={{fontSize:'14px', fontWeight:700, color:'var(--navy-950)'}}>Custom High-Performance Tech Stack</h4>
+                        <p style={{fontSize:'12.5px', color:'#6b6483', lineHeight:1.5}}>Websites & mobile applications built exclusively using modern serverless architectures and frameworks.</p>
+                      </div>
+                    </div>
+                    <div className="about-feature">
+                      <div className="about-feature-icon" style={{background:'rgba(16,185,129,.1)'}}><Check className="w-[18px] h-[18px]" style={{color:'#10b981'}} /></div>
+                      <div>
+                        <h4 style={{fontSize:'14px', fontWeight:700, color:'var(--navy-950)'}}>Continuous Delivery Integration</h4>
+                        <p style={{fontSize:'12.5px', color:'#6b6483', lineHeight:1.5}}>Blazing-fast automated CI/CD configurations ensure zero-downtime deployment pipelines.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="about-right" id="why">
+                  <div className="testimonial-card mb-4">
+                    <div className="flex justify-between items-start mb-2">
+                      <span style={{fontSize:'10px', fontWeight:700, fontFamily:'var(--font-mono)', color:'var(--purple-600)', textTransform:'uppercase', letterSpacing:'0.05em'}}>Client Testimonial</span>
+                      <div className="flex" style={{color:'var(--gold-400)'}}>
+                        {[...Array(testimonials[testimonialIndex].stars)].map((_, i) => (
+                          <Star key={i} className="w-3.5 h-3.5 fill-current" />
+                        ))}
+                      </div>
+                    </div>
+                    <AnimatePresence mode="wait">
+                      <motion.div key={testimonialIndex} initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -10 }} style={{minHeight:100, display:'flex', flexDirection:'column', justifyContent:'space-between'}}>
+                        <p style={{fontSize:'13px', color:'#4a4263', lineHeight:1.6, fontStyle:'italic'}}>"{testimonials[testimonialIndex].quote}"</p>
+                        <div style={{marginTop:12, paddingTop:10, borderTop:'1px solid #ece8f7', display:'flex', justifyContent:'space-between', alignItems:'center'}}>
+                          <div>
+                            <p style={{fontWeight:700, fontSize:'12px', color:'var(--navy-950)'}}>{testimonials[testimonialIndex].author}</p>
+                            <p style={{fontSize:'10px', color:'#6b6483', fontFamily:'var(--font-mono)'}}>{testimonials[testimonialIndex].role}</p>
+                          </div>
+                          <div className="flex gap-1">
+                            {testimonials.map((_, i) => (
+                              <button key={i} onClick={() => setTestimonialIndex(i)} style={{width: testimonialIndex === i ? 12 : 6, height:6, borderRadius:'50%', border:'none', background: testimonialIndex === i ? 'var(--purple-600)' : '#d6cee8', transition:'all .2s', cursor:'pointer'}} />
+                            ))}
+                          </div>
+                        </div>
+                      </motion.div>
+                    </AnimatePresence>
+                  </div>
+                  <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:12}}>
+                    <div style={{background:'linear-gradient(135deg,#6b21e8,#8b3ff0)', borderRadius:'var(--radius-lg)', padding:20, color:'white'}}>
+                      <Award className="w-6 h-6" style={{color:'var(--gold-300)'}} />
+                      <p style={{fontSize:'24px', fontWeight:800, fontFamily:'var(--font-mono)', marginTop:12}}>0.1 Seconds</p>
+                      <h4 style={{fontWeight:700, fontSize:'12px', marginTop:4}}>Average Page Load Speed</h4>
+                      <p style={{fontSize:'10px', opacity:.8, marginTop:4, lineHeight:1.4}}>Highly-optimized web applications achieve flawless Lighthouse scores.</p>
+                    </div>
+                    <div style={{background:'linear-gradient(135deg,#1d0f4a,#160b3a)', borderRadius:'var(--radius-lg)', padding:20, color:'white'}}>
+                      <Shield className="w-6 h-6" style={{color:'#34d399'}} />
+                      <p style={{fontSize:'24px', fontWeight:800, fontFamily:'var(--font-mono)', marginTop:12}}>99.99%</p>
+                      <h4 style={{fontWeight:700, fontSize:'12px', marginTop:4}}>Uptime SLA Guaranteed</h4>
+                      <p style={{fontSize:'10px', opacity:.7, marginTop:4, lineHeight:1.4}}>Enterprise-grade K8s orchestrations mean zero downtimes.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* ============ PORTFOLIO ============ */}
+          <section className="portfolio-section" id="portfolio">
+            <div className="wrap">
+              <div className="text-center max-w-2xl mx-auto mb-16">
+                <span className="eyebrow justify-center" style={{color:'var(--gold-400)', justifyContent:'center'}}>Proven Digital Excellence</span>
+                <h2 className="text-3xl sm:text-5xl font-black mt-4 mb-4" style={{fontFamily:'var(--font-display)', lineHeight:1.15}}>
+                  Our Engineered <span style={{background:'linear-gradient(90deg,var(--gold-400),var(--pink-500),var(--cyan-400))', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent'}}>Case Studies.</span>
+                </h2>
+                <p style={{color:'rgba(182,172,217,.7)', fontSize:'14px', lineHeight:1.6}}>
+                  Explore our flagship deployments showcasing enterprise web craftsmanship, smart contract creation, custom brand architectures, and robust cloud configurations.
+                </p>
+              </div>
+
+              <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(480px, 1fr))', gap:32}}>
+                {PROJECTS.map((project) => {
+                  const getIcon = () => {
+                    const props = { className: "w-6 h-6 text-white" };
+                    switch (project.iconName) {
+                      case "Cpu": return <Cpu {...props} />;
+                      case "Terminal": return <Terminal {...props} />;
+                      case "Palette": return <Palette {...props} />;
+                      case "Layers": return <Layers {...props} />;
+                      default: return <Code {...props} />;
+                    }
+                  };
                   return (
-                    <div
-                      key={prod.id}
-                      onClick={() => openOrderModal(prod.title)}
-                      className="group cursor-pointer bg-white/5 hover:bg-white/10 border border-white/10 p-3.5 rounded-2xl flex items-center justify-between hover-premium-dark"
-                    >
-                      <div className="flex items-center gap-3">
-                        <div className="bg-amber-400/10 p-2 rounded-xl text-amber-300 group-hover:scale-110 transition-transform duration-300">
-                          {prod.iconName === "PhoneCall" ? (
-                            <PhoneCall className="w-5 h-5" />
-                          ) : prod.iconName === "Share2" ? (
-                            <Share2 className="w-5 h-5" />
-                          ) : (
-                            <ShieldCheck className="w-5 h-5" />
-                          )}
+                    <div key={project.id} className="rounded-[32px] p-6 sm:p-8 text-left" style={{background:'linear-gradient(180deg,#130B2E,#0A051B)', border:'1px solid rgba(255,255,255,.05)'}}>
+                      <div style={{display:'flex', alignItems:'center', gap:12, marginBottom:12}}>
+                        <div style={{padding:'10px', borderRadius:'16px', background:`linear-gradient(135deg,${project.color.includes('amber') ? '#f7b32b' : project.color.includes('purple') ? '#6b21e8' : project.color.includes('pink') ? '#ec1e79' : '#22d3ee'},${project.color.includes('amber') ? '#ffd45c' : project.color.includes('purple') ? '#8b3ff0' : project.color.includes('pink') ? '#f0508f' : '#0fb8ac'})`}}>
+                          {getIcon()}
                         </div>
                         <div>
-                          <div className="flex items-center gap-2">
-                            <span className="font-bold text-xs sm:text-sm text-neutral-100 group-hover:text-amber-300 transition-colors duration-300">
-                              {prod.title}
-                            </span>
-                            <span className="bg-white/5 text-neutral-400 text-[8px] px-1.5 rounded font-mono border border-white/5">
-                              {prod.badge}
-                            </span>
-                          </div>
-                          <p className="text-[11px] text-neutral-300 mt-0.5 max-w-[210px] leading-tight">
-                            {prod.description}
-                          </p>
+                          <h3 style={{fontSize:'18px', fontWeight:800, color:'white'}}>{project.title}</h3>
+                          <p style={{fontSize:'10px', fontFamily:'var(--font-mono)', color:'var(--gold-400)', fontWeight:700}}>KPI: {project.metric}</p>
                         </div>
                       </div>
-                      <div className="text-neutral-400 group-hover:text-amber-300 group-hover:translate-x-1 transition-all duration-300">
-                        <ChevronRight className="w-4 h-4" />
+                      <p style={{fontSize:'13px', color:'rgba(182,172,217,.7)', lineHeight:1.6, marginBottom:12}}>{project.description}</p>
+
+                      <div style={{display:'flex', flexWrap:'wrap', gap:6, paddingTop:12, borderTop:'1px solid rgba(255,255,255,.05)', marginBottom:12}}>
+                        {project.tech.map((t, i) => (
+                          <span key={i} style={{fontSize:'10px', fontFamily:'var(--font-mono)', padding:'4px 10px', background:'rgba(255,255,255,.05)', borderRadius:6, color:'rgba(182,172,217,.6)'}}>{t}</span>
+                        ))}
+                      </div>
+
+                      <button onClick={() => setExpandedProject(expandedProject === project.id ? null : project.id)} style={{width:'100%', background:'rgba(255,255,255,.04)', border:'1px solid rgba(255,255,255,.08)', borderRadius:12, padding:'10px 16px', display:'flex', justifyContent:'space-between', alignItems:'center', color:'rgba(182,172,217,.6)', fontSize:'11px', fontFamily:'var(--font-mono)', cursor:'pointer'}}>
+                        <span>{expandedProject === project.id ? 'Hide Tech Blueprint' : 'View System Tech Blueprint'}</span>
+                        <span style={{color:'var(--gold-400)'}}>{expandedProject === project.id ? '[ - CLOSE ]' : '[ + INSPECT ]'}</span>
+                      </button>
+
+                      {expandedProject === project.id && (
+                        <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} style={{marginTop:12, background:'#05020c', border:'1px solid rgba(255,255,255,.08)', borderRadius:16, padding:16}}>
+                          <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:12}}>
+                            <div>
+                              <h4 style={{fontSize:'10px', fontFamily:'var(--font-mono)', color:'var(--gold-400)', marginBottom:8, textTransform:'uppercase', letterSpacing:'0.08em'}}>System Specifications</h4>
+                              {project.specs?.map((spec, sIdx) => (
+                                <div key={sIdx} style={{background:'rgba(255,255,255,.04)', border:'1px solid rgba(255,255,255,.05)', borderRadius:8, padding:'6px 10px', marginBottom:6}}>
+                                  <span style={{fontSize:'8px', color:'rgba(182,172,217,.4)', textTransform:'uppercase', fontFamily:'var(--font-mono)'}}>{spec.label}</span>
+                                  <p style={{fontSize:'10px', color:'white', fontFamily:'var(--font-mono)', fontWeight:700, marginTop:2}}>{spec.value}</p>
+                                </div>
+                              ))}
+                            </div>
+                            <div>
+                              <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', padding:'6px 10px', background:'rgba(17,9,42,.8)', border:'1px solid rgba(255,255,255,.08)', borderRadius:'8px 8px 0 0'}}>
+                                <span style={{fontSize:'9px', fontFamily:'var(--font-mono)', color:'rgba(182,172,217,.6)'}}>Code</span>
+                                <span style={{fontSize:'8px', fontFamily:'var(--font-mono)', color:'rgba(182,172,217,.3)'}}>READ_ONLY</span>
+                              </div>
+                              <pre style={{background:'rgba(0,0,0,.6)', border:'1px solid rgba(255,255,255,.08)', borderRadius:'0 0 8px 8px', padding:12, fontSize:'9px', fontFamily:'var(--font-mono)', color:'#34d399', overflowX:'auto', maxHeight:160, lineHeight:1.5, margin:0}}><code>{project.codeSnippet}</code></pre>
+                            </div>
+                          </div>
+                        </motion.div>
+                      )}
+
+                      <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginTop:12}}>
+                        <span style={{fontSize:'10px', fontFamily:'var(--font-mono)', color:'rgba(182,172,217,.3)'}}>{`// CASE_STUDY_0${project.id === 'apexdex' ? '1' : project.id === 'cloudscale' ? '2' : project.id === 'equinox' ? '3' : '4'}`}</span>
+                        <button onClick={() => openOrderModal(`Consultation regarding: ${project.title}`)} style={{background:'none', border:'none', display:'flex', alignItems:'center', gap:6, color:'rgba(182,172,217,.6)', fontSize:'12px', fontWeight:700, cursor:'pointer'}}>
+                          Inquire System Setup <ArrowUpRight className="w-4 h-4" />
+                        </button>
                       </div>
                     </div>
                   );
                 })}
               </div>
 
-              {/* Secure escrows callout */}
-              <div className="mt-5 bg-neutral-950/60 rounded-xl p-3 border border-neutral-800/80 text-[10px] text-neutral-400 flex items-center gap-2">
-                <Lock className="w-4 h-4 text-emerald-400 flex-shrink-0 animate-pulse" />
-                <span>Escrow integrations active. Every transaction is 100% verified and secure.</span>
-              </div>
-            </div>
-
-            {/* Micro FAQ promo card */}
-            <div className="bg-gradient-to-tr from-purple-900 via-indigo-950 to-[#2A0845] rounded-3xl p-5 border border-purple-800/30 text-white text-left shadow-lg relative overflow-hidden animate-gradient-loop hover-premium-dark">
-              <div className="absolute -bottom-10 -right-10 w-24 h-24 bg-purple-500/10 rounded-full blur-xl" />
-              <h4 className="text-xs font-bold uppercase tracking-widest text-pink-400 font-mono">Verified SLA Speed</h4>
-              <p className="text-sm font-extrabold mt-1">Instant Activation Promise</p>
-              <p className="text-xs text-neutral-300 mt-1 leading-relaxed">
-                Our automated phone and social account pipelines initiate instantly. 24/7 technical chat assist handles secure handovers.
-              </p>
-              <button
-                onClick={() => openOrderModal("Verified Accounts & Phone Provisions")}
-                className="mt-3.5 bg-white hover:bg-amber-400 hover:text-neutral-950 text-purple-950 px-3.5 py-1.5 rounded-lg text-[10px] font-extrabold flex items-center gap-1 hover:scale-105 active:scale-95 transition-all duration-300 hover:shadow-lg hover:shadow-amber-400/20"
-              >
-                Inquire Rates
-                <ArrowRight className="w-3 h-3 text-purple-950 transition-transform duration-300" />
-              </button>
-            </div>
-
-          </div>
-
-        </div>
-
-      </section>
-
-      {/* 5. MEET OUR EXECUTIVE LEADERSHIP & TECH ARCHITECTS */}
-      <section id="team" className="py-20 bg-gradient-to-tr from-neutral-900 via-[#1C0F42] to-neutral-950 animate-gradient-loop text-white relative overflow-hidden border-t border-b border-white/5">
-        
-        {/* Decorative background visualizers */}
-        <div className="absolute top-0 right-1/4 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 left-1/4 w-80 h-80 bg-pink-500/10 rounded-full blur-3xl pointer-events-none" />
-
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <span className="bg-amber-400/10 border border-amber-400/20 text-amber-300 text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest font-mono">
-              Expert Technical Leadership
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white mt-3 font-sans">
-              Meet Our Visionary Architects
-            </h2>
-            <p className="text-xs sm:text-sm text-neutral-400 mt-2">
-              Our elite team combines decades of experience in React ecosystems, Kubernetes containerization, and advanced software modeling.
-            </p>
-          </div>
-
-          {/* Team Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {TEAM_MEMBERS.map((member) => (
-              <div 
-                key={member.id}
-                onClick={() => {
-                  setSelectedTeamMember(member);
-                  setIsTeamModalOpen(true);
-                }}
-                className={`bg-white/5 border border-white/10 rounded-3xl p-6 text-center hover:scale-103 cursor-pointer transition-all duration-300 group relative overflow-hidden flex flex-col justify-between ${member.borderHover} hover:shadow-2xl`}
-              >
-                <div>
-                  <div className="relative w-32 h-32 mx-auto mb-4 rounded-2xl overflow-hidden border-2 border-white/10 group-hover:border-white/30 transition-colors duration-300">
-                    {member.image ? (
-                      <img 
-                        src={member.image} 
-                        alt={member.name}
-                        referrerPolicy="no-referrer"
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center bg-white/5 text-neutral-500">
-                        <span className="text-3xl font-bold font-mono">{member.name.charAt(0)}</span>
-                      </div>
-                    )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end justify-center pb-2">
-                      <span className={`text-[10px] font-mono ${member.textClass}`}>{member.tagline}</span>
-                    </div>
-                  </div>
-                  <h3 className="font-bold text-lg text-white font-sans group-hover:text-white transition-colors flex items-center justify-center gap-1">
-                    {member.name}
-                  </h3>
-                  <p className={`text-xs ${member.textClass} font-mono tracking-wider font-semibold uppercase mt-0.5`}>{member.role}</p>
-                  <p className="text-[11px] text-neutral-400 mt-2.5 leading-relaxed">
-                    {member.bio}
-                  </p>
-                </div>
-                
-                {/* Skill Badges & Interactive Link indicator */}
-                <div>
-                  <div className="flex flex-wrap justify-center gap-1.5 mt-4 pt-4 border-t border-white/5">
-                    {member.skills.slice(0, 3).map((skill, index) => (
-                      <span key={index} className="text-[9px] font-mono bg-white/5 border border-white/5 px-2 py-0.5 rounded text-neutral-300">
-                        {skill}
-                      </span>
-                    ))}
-                  </div>
-                  <div className="mt-3 text-[10px] font-mono text-neutral-400 group-hover:text-amber-400 transition-colors flex items-center justify-center gap-1">
-                    <span>View Profile Details</span>
-                    <ArrowUpRight className="w-3 h-3 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-        </div>
-      </section>
-
-      {/* 6. ABOUT VERTEX & WHY CHOOSE US */}
-      <section id="about" className="py-16 sm:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          
-          {/* Left: Beautiful brand pillars */}
-          <div className="lg:col-span-5 text-left space-y-5">
-            <span className="bg-amber-100 text-amber-800 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider font-mono">
-              About Vertex Technology Ltd
-            </span>
-            <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-neutral-900 font-sans leading-tight">
-              Empowering Brands<br />
-              With Digital Excellence
-            </h2>
-            <p className="text-xs sm:text-sm text-neutral-500 leading-relaxed">
-              Founded with the vision to blend high-fidelity software engineering with robust cloud deployments, Vertex Technology Ltd has grown into a trusted partner for 350+ corporate enterprises, fast-growing startups, and global agencies.
-            </p>
-
-            <div className="space-y-3 pt-2">
-              <div className="flex items-start gap-3">
-                <div className="bg-emerald-100 text-emerald-600 p-1 rounded-lg mt-0.5">
-                  <Check className="w-4 h-4 stroke-[2.5]" />
-                </div>
-                <div>
-                  <h4 className="font-bold text-xs sm:text-sm text-neutral-900">Enterprise SLA Standards</h4>
-                  <p className="text-[11px] sm:text-xs text-neutral-500">We pledge 99.99% system uptime for cloud networks and continuous maintenance support.</p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-3">
-                <div className="bg-emerald-100 text-emerald-600 p-1 rounded-lg mt-0.5">
-                  <Check className="w-4 h-4 stroke-[2.5]" />
-                </div>
-                <div>
-                  <h4 className="font-bold text-xs sm:text-sm text-neutral-900">Custom High-Performance Tech Stack</h4>
-                  <p className="text-[11px] sm:text-xs text-neutral-500">Websites & mobile applications built exclusively using modern serverless architectures and frameworks.</p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-3">
-                <div className="bg-emerald-100 text-emerald-600 p-1 rounded-lg mt-0.5">
-                  <Check className="w-4 h-4 stroke-[2.5]" />
-                </div>
-                <div>
-                  <h4 className="font-bold text-xs sm:text-sm text-neutral-900">Continuous Delivery Integration</h4>
-                  <p className="text-[11px] sm:text-xs text-neutral-500">Blazing-fast automated CI/CD configurations ensure zero-downtime deployment pipelines.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Right: Why Choose Us - Bento Trust Panel */}
-          <div id="why-us" className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
-            
-            {/* Bento 1: Testimonials Carousel */}
-            <div className="bg-white rounded-3xl p-5 border border-neutral-100 shadow-sm sm:col-span-2 text-left relative overflow-hidden">
-              <div className="flex justify-between items-start mb-3">
-                <span className="text-[10px] text-purple-600 font-mono font-bold uppercase">Client Testimonial</span>
-                <div className="flex text-amber-400">
-                  {[...Array(testimonials[testimonialIndex].stars)].map((_, i) => (
-                    <Star key={i} className="w-3.5 h-3.5 fill-current" />
-                  ))}
-                </div>
-              </div>
-              
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={testimonialIndex}
-                  initial={{ opacity: 0, x: 10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -10 }}
-                  className="min-h-[100px] flex flex-col justify-between"
-                >
-                  <p className="text-xs sm:text-sm text-neutral-700 italic leading-relaxed">
-                    "{testimonials[testimonialIndex].quote}"
-                  </p>
-                  <div className="mt-3 flex items-center justify-between border-t border-neutral-50 pt-2.5">
-                    <div>
-                      <p className="font-bold text-xs text-neutral-900">{testimonials[testimonialIndex].author}</p>
-                      <p className="text-[10px] text-neutral-400 font-mono">{testimonials[testimonialIndex].role}</p>
-                    </div>
-                    {/* Tiny index indicators */}
-                    <div className="flex gap-1">
-                      {testimonials.map((_, i) => (
-                        <button
-                          key={i}
-                          onClick={() => setTestimonialIndex(i)}
-                          className={`w-1.5 h-1.5 rounded-full transition-all ${
-                            testimonialIndex === i ? "bg-purple-600 w-3" : "bg-neutral-200"
-                          }`}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                </motion.div>
-              </AnimatePresence>
-            </div>
-
-            {/* Bento 2: Speed metric */}
-            <div className="bg-gradient-to-br from-purple-600 via-[#5B21B6] via-[#B91C1C] to-purple-600 animate-gradient-loop text-white rounded-3xl p-5 text-left relative overflow-hidden hover-premium-dark">
-              <div className="absolute top-0 right-0 w-24 h-24 bg-white/5 rounded-full blur-xl" />
-              <Award className="w-6 h-6 text-amber-300" />
-              <p className="text-2xl font-black font-mono mt-3">0.1 Seconds</p>
-              <h4 className="font-bold text-xs mt-1">Average Page Load Speed</h4>
-              <p className="text-[10px] text-purple-100 mt-1 leading-tight">
-                Our highly-optimized web applications achieve flawless Lighthouse scores and outstanding client engagement.
-              </p>
-            </div>
-
-            {/* Bento 3: Secure guarantee */}
-            <div className="bg-gradient-to-br from-neutral-900 via-purple-950 via-[#1C0F42] to-neutral-950 animate-gradient-loop text-white rounded-3xl p-5 text-left relative overflow-hidden hover-premium-dark">
-              <div className="absolute top-0 right-0 w-24 h-24 bg-white/5 rounded-full blur-xl" />
-              <Shield className="w-6 h-6 text-emerald-400" />
-              <p className="text-2xl font-black font-mono mt-3">99.99%</p>
-              <h4 className="font-bold text-xs mt-1">Uptime SLA Guaranteed</h4>
-              <p className="text-[10px] text-neutral-400 mt-1 leading-tight">
-                Enterprise-grade Kubernetes orchestrations and multi-region load balancers mean zero downtimes.
-              </p>
-            </div>
-
-          </div>
-
-        </div>
-      </section>
-
-      {/* 6.5. PORTFOLIO & ENGINEERED CASE STUDIES */}
-      <section id="portfolio" className="py-20 sm:py-28 bg-[#100729] text-white relative overflow-hidden border-t border-b border-purple-950/40">
-        {/* Abstract background blobs for high-end feel */}
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-purple-900/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-indigo-950/20 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[300px] bg-gradient-to-r from-purple-500/5 to-cyan-500/5 rounded-full blur-3xl pointer-events-none" />
-
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          
-          {/* Section Header */}
-          <div className="text-center max-w-2xl mx-auto mb-16 sm:mb-20">
-            <span className="bg-purple-900/40 border border-purple-500/30 text-purple-300 text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest font-mono">
-              Proven Digital Excellence
-            </span>
-            <h2 className="text-3xl sm:text-5xl font-black tracking-tight text-white mt-4 font-sans leading-tight">
-              Our Engineered <br className="sm:hidden" />
-              <span className="bg-gradient-to-r from-amber-400 via-pink-500 to-cyan-400 bg-clip-text text-transparent">
-                Case Studies.
-              </span>
-            </h2>
-            <p className="text-xs sm:text-sm text-neutral-400 mt-4 leading-relaxed">
-              Explore four of our flagship deployments showcasing enterprise web craftsmanship, smart contract creation, custom brand architectures, and robust cloud configurations.
-            </p>
-          </div>
-
-          {/* Projects Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10">
-            {PROJECTS.map((project) => {
-              // Custom project icon renderer
-              const getIcon = () => {
-                const props = { className: "w-6 h-6 text-white" };
-                switch (project.iconName) {
-                  case "Cpu": return <Cpu {...props} />;
-                  case "Terminal": return <Terminal {...props} />;
-                  case "Palette": return <Palette {...props} />;
-                  case "Layers": return <Layers {...props} />;
-                  default: return <Code {...props} />;
-                }
-              };
-
-              return (
-                <div 
-                  key={project.id}
-                  className="group bg-gradient-to-b from-[#130B2E] to-[#0A051B] border border-white/5 hover:border-purple-500/30 rounded-[32px] p-6 sm:p-8 flex flex-col justify-between transition-all duration-500 relative overflow-hidden hover:shadow-[0_0_50px_rgba(168,85,247,0.15)] text-left"
-                >
-                  {/* Glowing thin top-border line to feel premium and bespoke */}
-                  <div className={`absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r ${project.color} opacity-80 z-20`} />
-
-                  {/* Subtle decorative layout line grids like a CAD viewport */}
-                  <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff03_1px,transparent_1px),linear-gradient(to_bottom,#ffffff03_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none opacity-40" />
-
-                  {/* Colorful Top Corner Ambient Light */}
-                  <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl ${project.color} opacity-[0.06] group-hover:opacity-15 blur-2xl transition-all duration-500 pointer-events-none`} />
-
-                  <div>
-                    {/* Header: Category and Micro System Tags */}
-                    <div className="flex flex-wrap items-center justify-between gap-3 mb-6 relative z-10">
-                      <div className="flex items-center gap-2">
-                        <span className={`w-1.5 h-1.5 rounded-full bg-gradient-to-r ${project.color} animate-pulse`} />
-                        <span className="text-[9px] font-mono font-bold tracking-widest uppercase text-neutral-400">
-                          {project.category}
-                        </span>
-                      </div>
-                      <span className="text-[9px] font-mono text-neutral-500 tracking-wider bg-white/5 border border-white/10 px-2 py-0.5 rounded">
-                        [ SYSTEM-0{project.id === "apexdex" ? "1" : project.id === "cloudscale" ? "2" : project.id === "equinox" ? "3" : "4"} // SECURE ]
-                      </span>
-                    </div>
-
-                    {/* Title with elegant icon block */}
-                    <div className="flex items-center gap-4 mb-4 relative z-10">
-                      <div className={`p-2.5 rounded-2xl bg-gradient-to-tr ${project.color} shadow-lg shadow-purple-500/5 transition-transform duration-300 group-hover:scale-110`}>
-                        {getIcon()}
-                      </div>
-                      <div>
-                        <h3 className="text-xl sm:text-2xl font-black text-white font-sans tracking-tight">
-                          {project.title}
-                        </h3>
-                        <p className="text-[10px] font-mono text-amber-400 font-bold mt-0.5">
-                          KPI Metric: {project.metric}
-                        </p>
-                      </div>
-                    </div>
-
-                    {/* Description */}
-                    <p className="text-xs sm:text-sm text-neutral-400 leading-relaxed mb-4 text-left relative z-10">
-                      {project.description}
-                    </p>
-
-                    {/* BESPOKE SIMULATED VIEWPORT CONTAINER */}
-                    <div className="w-full h-44 sm:h-52 rounded-2xl bg-[#090418] border border-white/5 overflow-hidden my-5 flex flex-col relative group/preview shadow-2xl transition-all duration-300">
-                      
-                      {/* Simulated Web Browser Header */}
-                      <div className="w-full h-7 bg-[#11092e] border-b border-white/5 px-3 flex items-center justify-between flex-shrink-0 relative z-20">
-                        <div className="flex gap-1.5">
-                          <span className="w-2 h-2 rounded-full bg-red-500/40" />
-                          <span className="w-2 h-2 rounded-full bg-yellow-500/40" />
-                          <span className="w-2 h-2 rounded-full bg-green-500/40" />
-                        </div>
-                        <div className="bg-neutral-950/60 px-2.5 py-0.5 rounded text-[8px] sm:text-[9px] text-neutral-400 font-mono w-40 sm:w-48 text-center truncate select-none border border-white/5">
-                          {project.id === "apexdex" && "apexdex.io/swap-exchange"}
-                          {project.id === "cloudscale" && "cloudscale.sh/infrastructure-status"}
-                          {project.id === "equinox" && "equinox-couture.com/editorial-2026"}
-                          {project.id === "velopay" && "velopay.com/enterprise-dashboard"}
-                        </div>
-                        <span className="text-[8px] font-mono text-neutral-500 select-none">PORT: 443</span>
-                      </div>
-
-                      {/* Simulated Website Content Canvas */}
-                      <div className="flex-1 overflow-hidden text-left relative">
-                        {/* High-Fidelity Website Picture Design as full-bleed background */}
-                        <img 
-                          src={project.imageSrc} 
-                          alt={`${project.title} Website Design`}
-                          referrerPolicy="no-referrer"
-                          className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover/preview:scale-105"
-                        />
-                        
-                        {/* Dark/color gradient overlay */}
-                        <div className="absolute inset-0 bg-neutral-950/30 group-hover/preview:bg-neutral-950/60 transition-all duration-300 z-10" />
-                        
-                        {/* Interactive overlay widgets for a high-tech hybrid look */}
-                        <div className="absolute inset-0 z-10 p-3 flex flex-col justify-between">
-                          <div className="flex justify-between items-start">
-                            <span className="bg-[#0b051b]/90 backdrop-blur-md border border-white/10 text-white text-[8px] sm:text-[9px] font-mono px-2 py-0.5 rounded-md flex items-center gap-1.5">
-                              <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-ping" />
-                              VERIFIED STABLE
-                            </span>
-                            <span className="bg-[#0b051b]/90 backdrop-blur-md border border-white/10 text-amber-400 text-[8px] sm:text-[9px] font-mono px-2 py-0.5 rounded-md">
-                              {project.id === "apexdex" && "Gas Price: 12 Gwei"}
-                              {project.id === "cloudscale" && "Node Load: Balanced"}
-                              {project.id === "equinox" && "FPS Standard: 60fps"}
-                              {project.id === "velopay" && "PCI-DSS Level 1"}
-                            </span>
-                          </div>
-
-                          {/* Futuristic interactive metrics overlay at the bottom */}
-                          <div className="transform translate-y-2 opacity-0 group-hover/preview:translate-y-0 group-hover/preview:opacity-100 transition-all duration-300 bg-neutral-950/90 backdrop-blur-md border border-white/10 p-2.5 rounded-xl text-[9px] text-neutral-300 space-y-1">
-                            <p className="font-bold text-white text-[10px] flex items-center gap-1">
-                              <Sparkles className="w-3 h-3 text-amber-400 animate-spin-slow" />
-                              System Deployment Diagnostics
-                            </p>
-                            <p className="text-[8.5px] text-neutral-400 leading-tight font-mono">
-                              {project.id === "apexdex" && "DeFi Core: Constant product liquidity pool structures with smart transaction gas routing strategies."}
-                              {project.id === "cloudscale" && "Container Topology: Automated replication controller states, service mesh boundaries, and live pods."}
-                              {project.id === "equinox" && "Brand Physics: Custom micro-animations, design grids, high-fidelity color models, and modern display elements."}
-                              {project.id === "velopay" && "Fintech Base: Dynamic cash balances, instant cache lookups, transaction pipelines, and secure data tunnels."}
-                            </p>
-                          </div>
-                        </div>
-
-                      </div>
-                    </div>
-
-                  </div>
-
-                  <div>
-                    {/* Tech Stack Pills */}
-                    <div className="flex flex-wrap gap-1.5 pt-4 border-t border-white/5 mb-5">
-                      {project.tech.map((t, idx) => (
-                        <span 
-                          key={idx}
-                          className="text-[9px] font-mono text-neutral-300 bg-white/5 border border-white/5 px-2.5 py-1 rounded-md"
-                        >
-                          {t}
-                        </span>
-                      ))}
-                    </div>
-
-                    {/* New Interactive Expandable Specs Section & CTA Row */}
-                    <div className="space-y-4">
-                      
-                      {/* Interactive Expand Toggler Button */}
-                      <button 
-                        onClick={() => setExpandedProject(expandedProject === project.id ? null : project.id)}
-                        className="w-full flex items-center justify-between bg-neutral-900/40 hover:bg-neutral-900/80 border border-white/5 hover:border-purple-500/20 px-4 py-2.5 rounded-xl text-[10px] font-mono text-neutral-300 transition-all cursor-pointer"
-                      >
-                        <span className="flex items-center gap-1.5">
-                          <Terminal className="w-3.5 h-3.5 text-purple-400 animate-pulse" />
-                          {expandedProject === project.id ? "Hide Tech Blueprint" : "View System Tech Blueprint"}
-                        </span>
-                        <span className="text-amber-400 font-bold hover:underline">
-                          {expandedProject === project.id ? "[ - CLOSE ]" : "[ + INSPECT ]"}
-                        </span>
-                      </button>
-
-                      {/* Expandable Technical Terminal Board */}
-                      {expandedProject === project.id && (
-                        <div className="bg-[#05020c] border border-white/10 rounded-2xl p-4 sm:p-5 relative animate-fade-in text-left space-y-4">
-                          <div className="absolute top-3 right-3 flex items-center gap-1.5">
-                            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                            <span className="text-[8px] font-mono text-emerald-400 uppercase tracking-widest font-bold">Terminal Active</span>
-                          </div>
-
-                          {/* Dual Columns: Specs on Left, Code Snippet IDE on Right */}
-                          <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 pt-1">
-                            
-                            {/* Left Specs List */}
-                            <div className="lg:col-span-5 space-y-2">
-                              <h4 className="text-[10px] font-mono text-amber-400 uppercase tracking-widest font-extrabold border-b border-white/5 pb-1">
-                                System Specifications
-                              </h4>
-                              <div className="space-y-1.5">
-                                {project.specs?.map((spec, sIdx) => (
-                                  <div key={sIdx} className="bg-white/5 border border-white/5 p-1.5 rounded-lg flex flex-col justify-between">
-                                    <span className="text-[8px] text-neutral-400 uppercase font-mono">{spec.label}</span>
-                                    <span className="text-[10px] text-white font-mono font-bold mt-0.5">{spec.value}</span>
-                                  </div>
-                                ))}
-                              </div>
-                            </div>
-
-                            {/* Right Code Block Scroll Pane */}
-                            <div className="lg:col-span-7 flex flex-col">
-                              <div className="flex items-center justify-between bg-[#11092a] px-3 py-1.5 rounded-t-lg border-t border-x border-white/10">
-                                <span className="text-[8.5px] font-mono text-neutral-300 flex items-center gap-1">
-                                  <Code className="w-3 h-3 text-purple-400" />
-                                  {project.id === "apexdex" && "ApexToken.sol"}
-                                  {project.id === "cloudscale" && "cluster-config.tf"}
-                                  {project.id === "equinox" && "brand-tokens.css"}
-                                  {project.id === "velopay" && "route.ts"}
-                                </span>
-                                <span className="text-[8px] font-mono text-neutral-500">READ_ONLY</span>
-                              </div>
-                              <pre className="flex-1 bg-black/80 border-b border-x border-white/10 rounded-b-lg p-3 overflow-x-auto text-[9.5px] font-mono text-emerald-400 max-h-[170px] leading-normal scrollbar-thin">
-                                <code>{project.codeSnippet}</code>
-                              </pre>
-                            </div>
-
-                          </div>
-                        </div>
-                      )}
-
-                      {/* Footer Row: Inquire Button & Case index */}
-                      <div className="flex items-center justify-between pt-1">
-                        <span className="text-[10px] font-mono text-neutral-500">
-                          // CASE_STUDY_0{project.id === "apexdex" ? "1" : project.id === "cloudscale" ? "2" : project.id === "equinox" ? "3" : "4"}
-                        </span>
-                        <button 
-                          onClick={() => openOrderModal(`Consultation regarding: ${project.title}`)}
-                          className="inline-flex items-center gap-1.5 text-xs font-bold text-white hover:text-amber-300 transition-colors group/btn cursor-pointer"
-                        >
-                          Inquire System Setup
-                          <ArrowUpRight className="w-4 h-4 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform duration-300" />
-                        </button>
-                      </div>
-
-                    </div>
-                  </div>
-
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Live Platform Stats Callout */}
-          <div className="mt-16 bg-gradient-to-r from-purple-950/40 via-[#1C0F42]/80 to-purple-950/40 border border-purple-500/20 rounded-3xl p-6 sm:p-8 text-center max-w-4xl mx-auto relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-amber-400/5 rounded-full blur-2xl pointer-events-none" />
-            <div className="absolute bottom-0 left-0 w-32 h-32 bg-purple-400/5 rounded-full blur-2xl pointer-events-none" />
-            
-            <p className="font-mono text-amber-300 text-[10px] sm:text-xs tracking-widest font-extrabold uppercase">
-              // PRODUCTION ENVIRONMENT GUARANTEE
-            </p>
-            <h3 className="text-lg sm:text-xl font-bold text-white mt-2 mb-3">
-              Ready to deploy your next custom crypto ecosystem or high-end platform?
-            </h3>
-            <p className="text-xs text-neutral-300 max-w-2xl mx-auto leading-relaxed mb-6">
-              Our architects write production-grade TypeScript, Solidity, and cloud deployment manifests backed by 24/7 dedicated container support. Your ideas, engineered flawlessly.
-            </p>
-            <div className="flex flex-wrap justify-center gap-4">
-              <button 
-                onClick={() => openOrderModal("New Custom System Proposal")}
-                className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 hover:scale-105 active:scale-95 text-white text-xs font-bold px-6 py-3 rounded-xl transition-all duration-300 shadow-lg shadow-purple-500/20"
-              >
-                Inquire Project Scope
-              </button>
-              <a
-                href="https://wa.me/2348158432605?text=Hello%20Vertex%20Technology%20Ltd,%20I'd%20like%20to%20discuss%20a%20new%20project%20with%20your%20team."
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 text-white text-xs font-bold px-6 py-3 rounded-xl transition-all duration-300 flex items-center gap-2"
-              >
-                <MessageSquare className="w-4 h-4 text-amber-400" />
-                Chat with Founder on WhatsApp
-              </a>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-      {/* 7. FREQUENTLY ASKED QUESTIONS */}
-      <section id="faq" className="py-20 sm:py-28 bg-[#FAF9FF] border-t border-b border-neutral-100 relative overflow-hidden">
-        {/* Subtle background decoration */}
-        <div className="absolute top-1/2 left-0 w-72 h-72 bg-purple-100/40 rounded-full blur-3xl pointer-events-none -translate-y-1/2" />
-        <div className="absolute bottom-0 right-10 w-96 h-96 bg-amber-50/30 rounded-full blur-3xl pointer-events-none" />
-
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-            
-            {/* Left: Section Header with Sticky layout */}
-            <div className="lg:col-span-5 text-left space-y-4 lg:sticky lg:top-28 lg:h-fit">
-              <span className="bg-purple-100 text-purple-800 text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest font-mono">
-                Got Questions?
-              </span>
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-neutral-900 font-sans leading-tight">
-                Frequently Asked<br />
-                <span className="bg-gradient-to-r from-purple-600 via-pink-600 to-amber-500 bg-clip-text text-transparent">
-                  Inquiries.
-                </span>
-              </h2>
-              <p className="text-xs sm:text-sm text-neutral-500 leading-relaxed max-w-md">
-                Learn more about our development pipelines, professional team experience, pricing models, and specialized Crypto and Brand systems.
-              </p>
-              
-              <div className="pt-4">
-                <a
-                  href="https://wa.me/2348158432605?text=Hello%20Vertex%20Technology%20Ltd,%20I'd%20like%20to%20ask%20a%20question%20regarding%20your%20services."
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 bg-neutral-900 hover:bg-neutral-800 hover:-translate-y-0.5 text-white text-xs font-semibold px-5 py-3 rounded-xl transition-all duration-300"
-                >
-                  <MessageSquare className="w-4 h-4 text-amber-400" />
-                  Have a custom query? Ask on WhatsApp
-                </a>
-              </div>
-            </div>
-
-            {/* Right: Accordion Items */}
-            <div className="lg:col-span-7 space-y-4">
-              {FAQS.map((faq, index) => {
-                const isOpen = openFaqIndex === index;
-                return (
-                  <div
-                    key={index}
-                    className={`bg-white border rounded-2xl transition-all duration-300 overflow-hidden ${
-                      isOpen 
-                        ? "border-purple-200 shadow-lg shadow-purple-500/5 ring-1 ring-purple-100" 
-                        : "border-neutral-200/60 hover:border-neutral-300 hover:shadow-sm"
-                    }`}
-                  >
-                    <button
-                      onClick={() => setOpenFaqIndex(isOpen ? null : index)}
-                      className="w-full px-5 py-4 sm:py-5 flex items-center justify-between text-left gap-4 transition-colors group"
-                    >
-                      <span className={`font-sans font-semibold text-xs sm:text-sm transition-colors ${
-                        isOpen ? "text-purple-700" : "text-neutral-800 group-hover:text-purple-600"
-                      }`}>
-                        {faq.question}
-                      </span>
-                      <div className={`w-6 h-6 rounded-lg flex items-center justify-center transition-all ${
-                        isOpen ? "bg-purple-50 text-purple-600 rotate-90" : "bg-neutral-50 text-neutral-400 group-hover:bg-neutral-100"
-                      }`}>
-                        <ChevronRight className="w-4 h-4 transition-transform duration-300" />
-                      </div>
-                    </button>
-
-                    <AnimatePresence initial={false}>
-                      {isOpen && (
-                        <motion.div
-                          initial="collapsed"
-                          animate="open"
-                          exit="collapsed"
-                          variants={{
-                            open: { opacity: 1, height: "auto" },
-                            collapsed: { opacity: 0, height: 0 }
-                          }}
-                          transition={{ duration: 0.3, ease: [0.04, 0.62, 0.23, 0.98] }}
-                        >
-                          <div className="px-5 pb-5 pt-1 text-[11px] sm:text-xs text-neutral-500 leading-relaxed font-sans border-t border-neutral-50">
-                            {faq.answer}
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
-                );
-              })}
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      {/* 8. LOWER STATS RIBBON FOOTER */}
-      <section className="bg-gradient-to-r from-[#1E0B36] via-[#2F155C] to-[#110729] text-white py-8 border-t border-b border-purple-900/60 animate-gradient-loop">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-6 text-center">
-            
-            {STATS.map((stat) => {
-              const IconComponent = stat.id === "clients" ? Smile :
-                                    stat.id === "projects" ? Award :
-                                    stat.id === "uptime" ? Shield : Clock;
-              return (
-                <div key={stat.id} className="space-y-1">
-                  <div className="w-8 h-8 bg-white/5 rounded-full flex items-center justify-center mx-auto text-amber-400">
-                    <IconComponent className="w-4.5 h-4.5" />
-                  </div>
-                  <p className="text-xl sm:text-2xl font-black font-mono tracking-tight text-white">{stat.value}</p>
-                  <p className="text-[10px] sm:text-xs text-neutral-300">{stat.label}</p>
-                </div>
-              );
-            })}
-
-            {/* Stat 5 (Phone Support Link) */}
-            <a
-              href="https://wa.me/2348158432605"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="col-span-2 md:col-span-1 bg-white/5 hover:bg-white/10 rounded-2xl p-2 border border-white/5 flex flex-col items-center justify-center gap-1 hover:scale-103 transition-all"
-            >
-              <Phone className="w-4.5 h-4.5 text-emerald-400 animate-pulse" />
-              <p className="text-xs font-bold text-white font-mono">08158432605</p>
-              <p className="text-[9px] text-neutral-300 uppercase tracking-widest leading-none font-mono font-bold">Call / WhatsApp</p>
-            </a>
-
-          </div>
-        </div>
-      </section>
-
-      {/* 8. MAIN BRAND FOOTER */}
-      <footer id="contact" className="bg-[#110729] text-white pt-16 pb-12 border-t border-[#1d0e40]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 pb-12 border-b border-white/5">
-            
-            {/* Logo & Info column */}
-            <div className="md:col-span-5 text-left space-y-4">
-              <div className="flex items-center gap-2.5">
-                <VertexLogo className="w-10 h-10" />
-                <div>
-                  <span className="block text-white font-extrabold text-base sm:text-lg tracking-wider font-sans uppercase">
-                    Vertex
-                  </span>
-                  <span className="block text-amber-400 font-mono text-[9px] font-bold tracking-widest leading-none">
-                    TECHNOLOGY LTD
-                  </span>
-                </div>
-              </div>
-              <p className="text-xs text-neutral-400 leading-relaxed max-w-sm">
-                Vertex Technology Ltd designs and delivers robust, high-performance web applications, resilient cloud infrastructure, and custom software systems designed to scale enterprise operations.
-              </p>
-              <div className="text-xs text-neutral-400 space-y-1.5 font-mono">
-                <p className="flex items-center gap-2">
-                  <Phone className="w-4 h-4 text-amber-400" />
-                  <span>Support Line: +234 815 843 2605</span>
+              <div style={{marginTop:48, background:'linear-gradient(90deg,rgba(107,33,232,.2),rgba(28,15,66,.8),rgba(107,33,232,.2))', border:'1px solid rgba(139,63,240,.2)', borderRadius:24, padding:'32px 24px', textAlign:'center', maxWidth:800, marginLeft:'auto', marginRight:'auto'}}>
+                <p style={{fontSize:'10px', fontFamily:'var(--font-mono)', color:'var(--gold-400)', textTransform:'uppercase', letterSpacing:'0.12em', fontWeight:700}}>// PRODUCTION ENVIRONMENT GUARANTEE</p>
+                <h3 style={{fontSize:'20px', fontWeight:700, color:'white', marginTop:8, marginBottom:12}}>Ready to deploy your next custom crypto ecosystem or high-end platform?</h3>
+                <p style={{fontSize:'13px', color:'rgba(182,172,217,.6)', maxWidth:500, margin:'0 auto 20px', lineHeight:1.6}}>
+                  Our architects write production-grade TypeScript, Solidity, and cloud deployment manifests backed by 24/7 dedicated container support.
                 </p>
-                <p className="flex items-center gap-2">
-                  <Lock className="w-4 h-4 text-purple-400" />
-                  <span>Regulatory ID: Registered Global Entity</span>
-                </p>
-              </div>
-            </div>
-
-            {/* Navigation links columns */}
-            <div className="md:col-span-7 grid grid-cols-2 sm:grid-cols-3 gap-6 text-left">
-              
-              {/* Col 1 */}
-              <div>
-                <h4 className="text-xs font-extrabold text-white uppercase tracking-wider mb-3">Core Solutions</h4>
-                <ul className="space-y-2 text-xs text-neutral-400">
-                  <li><button onClick={() => { scrollToId("services"); setActiveService(SERVICES[0]); }} className="hover:text-amber-400 transition-colors">Web Development</button></li>
-                  <li><button onClick={() => { scrollToId("services"); setActiveService(SERVICES[1]); }} className="hover:text-amber-400 transition-colors">Cloud Engineering</button></li>
-                  <li><button onClick={() => { scrollToId("services"); setActiveService(SERVICES[2]); }} className="hover:text-amber-400 transition-colors">App Development</button></li>
-                  <li><button onClick={() => { scrollToId("services"); setActiveService(SERVICES[3]); }} className="hover:text-amber-400 transition-colors">Custom Software Solutions</button></li>
-                </ul>
-              </div>
-
-              {/* Col 2 */}
-              <div>
-                <h4 className="text-xs font-extrabold text-white uppercase tracking-wider mb-3">Premium Provisions</h4>
-                <ul className="space-y-2 text-xs text-neutral-400">
-                  <li><button onClick={() => scrollToId("products")} className="hover:text-amber-400 transition-colors">Dedicated DevOps SREs</button></li>
-                  <li><button onClick={() => scrollToId("products")} className="hover:text-amber-400 transition-colors">Scalable Cloud Clusters</button></li>
-                  <li><button onClick={() => scrollToId("faq")} className="hover:text-amber-400 transition-colors">General FAQ Accordion</button></li>
-                  <li><button onClick={() => openOrderModal("General Consultation")} className="hover:text-amber-400 transition-colors">Technical Consulting</button></li>
-                </ul>
-              </div>
-
-              {/* Col 3 */}
-              <div className="col-span-2 sm:col-span-1">
-                <h4 className="text-xs font-extrabold text-white uppercase tracking-wider mb-3">Immediate Actions</h4>
-                <div className="space-y-2.5">
-                  <button
-                    onClick={() => openOrderModal("General Consulting / Getting Started")}
-                    className="w-full bg-purple-600 hover:bg-purple-700 hover:scale-105 hover:-translate-y-0.5 text-white py-2 px-3 rounded-lg text-[10px] font-bold flex items-center justify-center gap-1 shadow-md shadow-purple-900/15 hover:shadow-purple-900/35 transition-all duration-300"
-                  >
-                    Request Consultation
-                    <ArrowRight className="w-3 h-3" />
+                <div style={{display:'flex', gap:12, justifyContent:'center', flexWrap:'wrap'}}>
+                  <button onClick={() => openOrderModal("New Custom System Proposal")} className="btn btn-gold" style={{fontSize:'13px', padding:'12px 24px'}}>
+                    Inquire Project Scope <ArrowRight className="w-4 h-4" />
                   </button>
-                  <a
-                    href="https://wa.me/2348158432605"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full bg-emerald-500 hover:bg-emerald-600 hover:scale-105 hover:-translate-y-0.5 text-white py-2 px-3 rounded-lg text-[10px] font-bold flex items-center justify-center gap-1 shadow-md shadow-emerald-500/15 hover:shadow-emerald-500/35 transition-all duration-300"
-                  >
-                    Quick WhatsApp Chat
-                    <MessageSquare className="w-3 h-3" />
+                  <a href="https://wa.me/2348158432605?text=Hello%20Vertex%20Technology%20Ltd,%20I'd%20like%20to%20discuss%20a%20new%20project%20with%20your%20team." target="_blank" rel="noopener noreferrer" className="btn btn-ghost" style={{fontSize:'13px', padding:'12px 24px'}}>
+                    <MessageSquare className="w-4 h-4" /> Chat with Founder on WhatsApp
                   </a>
                 </div>
               </div>
-
             </div>
+          </section>
 
+          {/* ============ FAQ ============ */}
+          <section className="faq-section" id="faq">
+            <div className="wrap">
+              <div className="faq-grid">
+                <div className="faq-left">
+                  <span className="eyebrow" style={{color:'var(--purple-600)', marginBottom:12, display:'inline-flex'}}>Got Questions?</span>
+                  <h2>Frequently Asked<br /><span style={{background:'linear-gradient(90deg,var(--purple-600),var(--pink-500),var(--gold-400))', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent'}}>Inquiries.</span></h2>
+                  <p style={{color:'#6b6483', fontSize:'14px', lineHeight:1.6, marginTop:12, maxWidth:360}}>
+                    Learn more about our development pipelines, professional team experience, pricing models, and specialized Crypto and Brand systems.
+                  </p>
+                  <div style={{marginTop:24}}>
+                    <a href="https://wa.me/2348158432605?text=Hello%20Vertex%20Technology%20Ltd,%20I'd%20like%20to%20ask%20a%20question%20regarding%20your%20services." target="_blank" rel="noopener noreferrer" className="btn" style={{background:'var(--navy-950)', color:'white', fontSize:'13px', padding:'12px 20px', borderRadius:12}}>
+                      <MessageSquare className="w-4 h-4" style={{color:'var(--gold-400)'}} />
+                      Have a custom query? Ask on WhatsApp
+                    </a>
+                  </div>
+                </div>
+                <div>
+                  {FAQS.map((faq, index) => {
+                    const isOpen = openFaqIndex === index;
+                    return (
+                      <div key={index} className="faq-item" style={{borderColor: isOpen ? 'var(--purple-600)' : '#e0d9f0'}}>
+                        <button onClick={() => setOpenFaqIndex(isOpen ? null : index)} style={{width:'100%', padding:'16px 20px', display:'flex', justifyContent:'space-between', alignItems:'center', gap:12, background:'none', textAlign:'left', cursor:'pointer', border:'none'}}>
+                          <span style={{fontSize:'13px', fontWeight:600, color: isOpen ? 'var(--purple-600)' : 'var(--navy-950)'}}>{faq.question}</span>
+                          <div style={{width:24, height:24, borderRadius:8, display:'flex', alignItems:'center', justifyContent:'center', background: isOpen ? 'rgba(107,33,232,.08)' : '#f5f3fa', transform: isOpen ? 'rotate(90deg)' : 'none', transition:'transform .2s'}}>
+                            <ChevronRight className="w-4 h-4" style={{color: isOpen ? 'var(--purple-600)' : '#6b6483'}} />
+                          </div>
+                        </button>
+                        <AnimatePresence initial={false}>
+                          {isOpen && (
+                            <motion.div initial="collapsed" animate="open" exit="collapsed" variants={{open:{opacity:1,height:'auto'},collapsed:{opacity:0,height:0}}} transition={{duration:.3}}>
+                              <div style={{padding:'0 20px 16px', fontSize:'12.5px', color:'#6b6483', lineHeight:1.6, borderTop:'1px solid #f0edf7', paddingTop:12}}>
+                                {faq.answer}
+                              </div>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* ============ LOWER STATS ============ */}
+          <div className="lower-stats">
+            <div className="wrap">
+              <div style={{display:'grid', gridTemplateColumns:'repeat(5,1fr)', gap:16, textAlign:'center'}}>
+                <div>
+                  <SmileIcon className="w-6 h-6 mx-auto" style={{color:'var(--gold-400)'}} />
+                  <p style={{fontSize:'20px', fontWeight:800, fontFamily:'var(--font-mono)', marginTop:4}}>350+</p>
+                  <p style={{fontSize:'11px', opacity:.7}}>Corporate Clients</p>
+                </div>
+                <div>
+                  <Award className="w-6 h-6 mx-auto" style={{color:'var(--gold-400)'}} />
+                  <p style={{fontSize:'20px', fontWeight:800, fontFamily:'var(--font-mono)', marginTop:4}}>850+</p>
+                  <p style={{fontSize:'11px', opacity:.7}}>Production Deployments</p>
+                </div>
+                <div>
+                  <Shield className="w-6 h-6 mx-auto" style={{color:'var(--gold-400)'}} />
+                  <p style={{fontSize:'20px', fontWeight:800, fontFamily:'var(--font-mono)', marginTop:4}}>99.99%</p>
+                  <p style={{fontSize:'11px', opacity:.7}}>Average Server Uptime</p>
+                </div>
+                <div>
+                  <Clock className="w-6 h-6 mx-auto" style={{color:'var(--gold-400)'}} />
+                  <p style={{fontSize:'20px', fontWeight:800, fontFamily:'var(--font-mono)', marginTop:4}}>15 Min</p>
+                  <p style={{fontSize:'11px', opacity:.7}}>Incident SLA Response</p>
+                </div>
+                <a href="https://wa.me/2348158432605" target="_blank" rel="noopener noreferrer" style={{textDecoration:'none'}}>
+                  <Phone className="w-6 h-6 mx-auto" style={{color:'#34d399'}} />
+                  <p style={{fontSize:'12px', fontWeight:700, fontFamily:'var(--font-mono)', marginTop:4, color:'white'}}>08158432605</p>
+                  <p style={{fontSize:'11px', opacity:.7, color:'white'}}>Call / WhatsApp</p>
+                </a>
+              </div>
+            </div>
           </div>
 
-          {/* Footer bottom legal */}
-          <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-neutral-400">
-            <p>© 2026 Vertex Fintech Ltd. All Rights Reserved. Innovate • Create • Elevate.</p>
-            <div className="flex gap-4">
-              <span className="hover:text-amber-400 cursor-pointer">SLA Agreement</span>
-              <span className="hover:text-amber-400 cursor-pointer">Privacy Policy</span>
-              <span className="hover:text-amber-400 cursor-pointer">Terms of Service</span>
+          {/* ============ FOOTER ============ */}
+          <footer className="vertex-footer" id="contact">
+            <div className="wrap">
+              <div className="footer-grid">
+                <div className="footer-brand">
+                  <div className="logo">
+                    <svg width="30" height="32" viewBox="0 0 120 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M14 20 C4 20 -2 34 8 46 L46 96 C56 108 70 108 80 96 L106 62" stroke="url(#vg1)" strokeWidth="15" strokeLinecap="round" fill="none"/>
+                      <path d="M40 30 L64 62 L98 20" stroke="url(#vg2)" strokeWidth="17" strokeLinecap="round" fill="none"/>
+                    </svg>
+                    <span style={{color:'white'}}>VERTEX<span className="logo-sub">FINTECH LTD</span></span>
+                  </div>
+                  <p>We build, design, and grow brands for businesses and individuals thriving globally.</p>
+                </div>
+                <div className="footer-col">
+                  <h6>Company</h6>
+                  <button onClick={() => scrollToId("about")}>About Us</button>
+                  <button onClick={() => scrollToId("why")}>Why Us</button>
+                  <button onClick={() => scrollToId("services")}>Services</button>
+                  <button onClick={() => scrollToId("products")}>Products</button>
+                </div>
+                <div className="footer-col">
+                  <h6>Services</h6>
+                  <button onClick={() => scrollToId("services")}>Web Development</button>
+                  <button onClick={() => scrollToId("services")}>App Development</button>
+                  <button onClick={() => scrollToId("services")}>Digital Branding</button>
+                  <button onClick={() => scrollToId("services")}>Marketing</button>
+                </div>
+                <div className="footer-col">
+                  <h6>Get In Touch</h6>
+                  <a href="tel:08158432605">📞 08158432605</a>
+                  <a href="mailto:hello@vertexfintech.com">✉️ hello@vertexfintech.com</a>
+                  <span style={{color:'var(--ink-dim)', fontSize:'13.5px'}}>📍 Serving clients worldwide</span>
+                </div>
+              </div>
+              <div className="footer-bottom">
+                <span>© 2026 Vertex Fintech Ltd. All rights reserved.</span>
+                <span>Innovate · Create · Elevate</span>
+              </div>
             </div>
-          </div>
+          </footer>
 
-        </div>
-      </footer>
-
-      {/* 9. LEAD CONSULTATION MODAL POPUP */}
-      <LeadModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        preselectedProduct={preselectedProduct}
-      />
-
-      {/* 10. TEAM MEMBER DETAIL POPUP MODAL */}
-      <TeamMemberModal
-        isOpen={isTeamModalOpen}
-        onClose={() => {
-          setIsTeamModalOpen(false);
-          setSelectedTeamMember(null);
-        }}
-        member={selectedTeamMember}
-      />
-
-      </div>
+          {/* ============ MODALS ============ */}
+          <LeadModal
+            isOpen={isModalOpen}
+            onClose={() => setIsModalOpen(false)}
+            preselectedProduct={preselectedProduct}
+          />
+          <TeamMemberModal
+            isOpen={isTeamModalOpen}
+            onClose={() => { setIsTeamModalOpen(false); setSelectedTeamMember(null); }}
+            member={selectedTeamMember}
+          />
+        </>
       )}
     </div>
+  );
+}
+
+function GlobeIcon(props: { className?: string }) {
+  const { className } = props;
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+      <circle cx="12" cy="12" r="10"/>
+      <line x1="2" y1="12" x2="22" y2="12"/>
+      <path d="M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20z"/>
+    </svg>
+  );
+}
+
+function SmileIcon(props: { className?: string }) {
+  const { className } = props;
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+      <circle cx="12" cy="12" r="10"/>
+      <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
+      <line x1="9" y1="9" x2="9.01" y2="9"/>
+      <line x1="15" y1="9" x2="15.01" y2="9"/>
+    </svg>
   );
 }
