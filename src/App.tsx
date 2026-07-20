@@ -393,6 +393,9 @@ export default function App() {
                   <button onClick={() => { scrollToId("why"); setMobileMenuOpen(false); }}>Why Us</button>
                   <button onClick={() => { scrollToId("faq"); setMobileMenuOpen(false); }}>FAQ</button>
                   <button onClick={() => { scrollToId("contact"); setMobileMenuOpen(false); }}>Contact</button>
+                  <a href="https://wa.me/2348158432605?text=Hello%20Vertex%20Fintech%20Ltd%2C%20I%20want%20to%20know%20more%20about%20your%20services." target="_blank" rel="noopener noreferrer" style={{display:'block', background:'linear-gradient(135deg,var(--gold-300),var(--gold-400))', color:'var(--navy-950)', borderRadius:100, padding:'10px 0', marginTop:8, fontWeight:700, fontSize:'14px', textAlign:'center'}}>
+                    Get Started <ArrowRight className="w-4 h-4" style={{display:'inline', verticalAlign:'middle'}} />
+                  </a>
                 </motion.div>
               )}
             </div>
@@ -702,7 +705,7 @@ export default function App() {
                 </p>
               </div>
 
-              <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(460px, 1fr))', gap:28}}>
+              <div className="portfolio-projects-grid" style={{display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(400px, 1fr))', gap:28}}>
                 {PROJECTS.map((project) => {
                   const getIcon = () => {
                     const props = { className: "w-5 h-5 text-white" };
@@ -771,7 +774,7 @@ export default function App() {
                         {expandedProject === project.id && (
                           <motion.div initial={{ opacity:0, height:0 }} animate={{ opacity:1, height:'auto' }} style={{marginTop:12}}>
                             <div style={{background:'rgba(5,2,12,.6)', border:'1px solid rgba(255,255,255,.06)', borderRadius:12, padding:16}}>
-                              <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:10}}>
+                              <div className="specs-expanded-grid" style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:10}}>
                                 <div>
                                   <h4 style={{fontSize:'9px', fontFamily:'var(--font-mono)', color:'var(--gold-400)', marginBottom:8, textTransform:'uppercase', letterSpacing:'.06em'}}>Specifications</h4>
                                   {project.specs?.map((spec, sIdx) => (
@@ -809,7 +812,7 @@ export default function App() {
                 })}
               </div>
 
-              <div style={{marginTop:48, background:'linear-gradient(90deg,rgba(107,33,232,.2),rgba(28,15,66,.8),rgba(107,33,232,.2))', border:'1px solid rgba(139,63,240,.2)', borderRadius:24, padding:'32px 24px', textAlign:'center', maxWidth:800, marginLeft:'auto', marginRight:'auto'}}>
+              <div className="portfolio-cta" style={{marginTop:48, background:'linear-gradient(90deg,rgba(107,33,232,.2),rgba(28,15,66,.8),rgba(107,33,232,.2))', border:'1px solid rgba(139,63,240,.2)', borderRadius:24, padding:'32px 24px', textAlign:'center', maxWidth:800, margin:'48px auto 0'}}>
                 <p style={{fontSize:'10px', fontFamily:'var(--font-mono)', color:'var(--gold-400)', textTransform:'uppercase', letterSpacing:'0.12em', fontWeight:700}}>// PRODUCTION ENVIRONMENT GUARANTEE</p>
                 <h3 style={{fontSize:'20px', fontWeight:700, color:'white', marginTop:8, marginBottom:12}}>Ready to deploy your next custom crypto ecosystem or high-end platform?</h3>
                 <p style={{fontSize:'13px', color:'rgba(182,172,217,.6)', maxWidth:500, margin:'0 auto 20px', lineHeight:1.6}}>
